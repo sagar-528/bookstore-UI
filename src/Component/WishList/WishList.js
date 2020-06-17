@@ -69,6 +69,7 @@ export class WishList extends Component {
                         </div>
                 </Card>
             </div>
+            <Footer />
         </div>
         )
     }
