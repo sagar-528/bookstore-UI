@@ -13,7 +13,7 @@ class Gridview extends Component {
     constructor(props) {
         super(props);
         this.state ={
-           
+            books: []
         }
     }
 
@@ -22,7 +22,9 @@ render() {
     return (
         <MuiThemeProvider theme={useStyles}>
         <div className={useStyles.root} style={{display:'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
-        <Bookview />
+        {this.props.data.map(o => (
+                        <Bookview data={o} function={this.props.function}/>
+                    ))}
         </div>
         </MuiThemeProvider>
         );

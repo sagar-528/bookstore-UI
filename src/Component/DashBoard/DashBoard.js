@@ -4,16 +4,26 @@ import Footer from "../Footer/Footer";
 import Gridview from '../Gridview';
 import Pagination from '../Pagination/Pagination';
 import Lowerbar from '../Lowerbar/Lowerbar';
+import HTTPService from '../../HTTPServices'
 
-
+var book = new HTTPService();
 class DashBoard extends React.Component {
 
 constructor(props) {
     super(props)
     this.state = {
-        
+        books: []
     }
 
+}
+
+componentDidMount() {
+    book.fetchgetAllBook(response => {
+        console.log(response)
+        this.setState({
+            books: response
+        })
+    })
 }
 
     render() {
