@@ -15,7 +15,7 @@ export class Lowerbar extends Component {
             <div >
                 <Toolbar>
                     <Typography edge="start" variant="h6" >
-                        Books (52 items)
+                        Books ({this.props.data} items)
                     </Typography>
                     </Toolbar>
                </div>

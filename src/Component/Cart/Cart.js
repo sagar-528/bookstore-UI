@@ -46,6 +46,35 @@ export class Cart extends Component {
         })
     }
 
+    handleChangeBookDec(e) {
+        let q = e.bookQuantity - 1;
+        console.log("value of q ", q)
+        data.addToCart(101, e.id, q)
+        window.location.reload(true)
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
+        window.location.reload(true)
+    }
+
+    handleChangeBookInc(e) {
+        let q = e.bookQuantity + 1;
+        console.log("value of q ", q)
+        data.addToCart(101, e.id, q)
+        window.location.reload(true)
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
+        window.location.reload(true)
+    }
+
+
     handleRemoveBookFromOrder = (e) =>{
         data.removeBookFromCart(101,e,1)
         console.log(e);
@@ -202,9 +231,9 @@ export class Cart extends Component {
                                             <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
                                             <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
                                         <div>
-                                            <RemoveCircleOutlineIcon />
-                                            <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} placeholder="1"/>
-                                            <AddCircleOutlineIcon />
+                                            <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
+                                            <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} readOnly value={book.bookQuantity}/>
+                                            <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
                                             <Button style={{ marginLeft: '80px' }} onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
                                         </div>
                                     </div>
