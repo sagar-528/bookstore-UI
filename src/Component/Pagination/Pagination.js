@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import './Pagination.css'
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
 export class Pagination extends Component {
 
