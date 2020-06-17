@@ -12,7 +12,10 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Link } from 'react-router-dom';
+import HTTTPServices from '../../HTTPServices';
 
+
+var data = new HTTTPServices();
 export class Cart extends Component {
 
     constructor(props) {
@@ -32,6 +35,15 @@ export class Cart extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.setEditable = this.setEditable.bind(this);
         this.checkout = this.checkout.bind(this);
+    }
+
+    componentDidMount() {
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
     }
     
     setEditable() {
@@ -172,17 +184,17 @@ export class Cart extends Component {
                 <div>
                 <div className="mainCart">
                 <Card className="userCard">
-                    <div className="myCart">My Cart (52) </div>
+                    <div className="myCart">My Cart ({this.state.booklist.length}) </div>
                         <div className="box">
                             {this.state.booklist.map(book => (
                             <div className="cart">
                                 <div>
-                                    <img className="bookImages" src="http://books.google.com/books/content?id=GHt_uwEACAAJ&printsec=frontcover&img=1&zoom=5,193"/>
+                                    <img className="bookImages" src={book.picPath}/>
                                 </div>
                                     <div style={{ marginLeft: '5%' }}>
-                                            <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>The Girl in Room 105</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by Chetan Bhagat</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. 193</Typography>
+                                            <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
+                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
+                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
                                         <div>
                                             <RemoveCircleOutlineIcon />
                                             <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} placeholder="1"/>

@@ -5,7 +5,10 @@ import './Book.css'
 import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import HTTPServices from '../../HTTPServices'
 
+
+var book = new HTTPServices();
 export class Bookview extends Component {
     constructor(props) {
         super(props)
@@ -13,11 +16,30 @@ export class Bookview extends Component {
         this.state = {
              cardHover: false
         }
+        this.handleOnHoverCard = this.handleOnHoverCard.bind(this)
     }
+
+    handleOnHoverCard = () => {
+        this.setState({
+            cardHover: !this.state.cardHover
+            
+        })
+    }
+
+    handleClickAddToCart = (e) => {
+        book.addToCart(101, e, 1)
+        console.log("sagar", e);
+    }
+
+handleClickAddToWishList = (e) => {
+            book.addToWishList(101,e)
+            console.log("sagar", e);
+            
+        }
 
     render() {
         return (  
-                <div>
+                <div onMouseOver= {() => this.handleOnHoverCard()} onMouseOut={() => this.handleOnHoverCard()}>
                 <Card className="card"  id="info" variant="outlined">
                     <CardActionArea>
                         <div className="divName">
@@ -38,8 +60,10 @@ export class Bookview extends Component {
                     </div>
 
                     <div className="BookButtons">
-                        <Button variant="outlined" style={{ backgroundColor: '#A03037', color: 'white', width: '40%', height: '10%', fontSize: '10px' }} > buynow</Button>
-                    <Button variant="outlined" style={{ width: '40%', height: '10%', fontSize: '10px' }}> wishlist </Button>
+                        <Button variant="outlined" style={{ backgroundColor: '#A03037', color: 'white', width: '40%', height: '10%', fontSize: '10px' }}
+                        onClick={() => this.handleClickAddToCart(this.props.data.id)} > buynow</Button>
+                    <Button variant="outlined" style={{ width: '40%', height: '10%', fontSize: '10px' }}
+                    onClick={() => this.handleClickAddToWishList(this.props.data.id)}> wishlist </Button>
                     </div>
                     <Card id="bookInfo" variant="outlined">
                         <CardContent>
