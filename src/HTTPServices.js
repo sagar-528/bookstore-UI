@@ -50,6 +50,17 @@ class HTTPServices{
         .then(res => res.text())
         .then(res => console.log(res))
     }
+
+    removeBookFromCart(userId, bookId, quantity){
+        fetch("http://localhost:8080/home/user/cart/remove", {
+            method: 'PUT',
+            headers: {
+                "content-type": "Application/json"
+            },
+            body: JSON.stringify({"bookId": bookId, "bookQuantity": quantity, "userId": userId})})
+            .then(res => res.text())
+            .then(res => console.log(res))
+    }
 }
 
 export default HTTPServices;

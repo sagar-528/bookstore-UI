@@ -45,6 +45,12 @@ export class Cart extends Component {
             })
         })
     }
+
+    handleRemoveBookFromOrder = (e) =>{
+        data.removeBookFromCart(101,e,1)
+        console.log(e);
+        window.location.reload(false);
+    }
     
     setEditable() {
         this.setState({
@@ -199,7 +205,7 @@ export class Cart extends Component {
                                             <RemoveCircleOutlineIcon />
                                             <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} placeholder="1"/>
                                             <AddCircleOutlineIcon />
-                                            <Button style={{ marginLeft: '80px' }}>Remove</Button>
+                                            <Button style={{ marginLeft: '80px' }} onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
                                         </div>
                                     </div>
                                 </div>
@@ -289,7 +295,7 @@ export class Cart extends Component {
                                 </div>
                                     <div style={{ marginLeft: '5%' }}>
                                             <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>{book.author}</Typography>
+                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
                                             <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
                                         <div>
                                     </div>
