@@ -33,6 +33,23 @@ class HTTPServices{
         .then(res => res.json())
         .then(values => callback(values))
     }
+
+    fetchAllWishlistBooks(callback) {
+        fetch("http://localhost:8080/home/user/wishlist/getall/101")
+        .then(res => res.json())
+        .then(values => callback(values))
+    }
+
+    removeBookFromWishList(userId, bookId){
+        fetch("http://localhost:8080/home/user/wishlist/remove", {
+        method: 'PUT',
+        headers: {
+            "content-type": "Application/json"
+        },
+        body: JSON.stringify({"bookId": bookId, "userId": userId})})
+        .then(res => res.text())
+        .then(res => console.log(res))
+    }
 }
 
 export default HTTPServices;
