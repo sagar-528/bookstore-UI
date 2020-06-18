@@ -46,7 +46,7 @@ export class WishList extends Component {
         return (
             <div>
                 <Headerbar />
-                <div className="mainCart">
+                <div className="wishCart">
                 <Card className="Card">
                     <div className="myCart">My WishList ({this.state.wishlistBooks.length}) </div>
                         <div className="box">

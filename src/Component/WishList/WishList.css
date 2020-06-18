@@ -29,7 +29,7 @@
     margin: 20px 33px ;
 }
 
-.mainCart{
+.wishCart{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

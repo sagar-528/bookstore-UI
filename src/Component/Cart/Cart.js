@@ -313,8 +313,8 @@ export class Cart extends Component {
                     </div>
                 </Card>
             </div>
-            <div className="mainCart">
-                <Card className="userCard" style={this.state.orderSummery ? { height: '300px' } : { height: '60px' }}>
+            <div className="OrderCart">
+                <Card className="lastCard" style={this.state.orderSummery ? { height: '300px' } : { height: '60px' }}>
                     <div className="myCart">Order summery</div>
                         <div className="box">
                             {this.state.booklist.map(book => (
