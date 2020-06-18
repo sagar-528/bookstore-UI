@@ -6,8 +6,10 @@ export class Lowerbar extends Component {
     constructor(props){
         super(props)
         this.state={
+        
         }
     }
+
 
     render() {
         return (
@@ -15,7 +17,13 @@ export class Lowerbar extends Component {
             <div >
                 <Toolbar>
                     <Typography edge="start" variant="h6" >
-                        Books ({this.props.data} items)
+                        Books ({this.props.data} Items)
+                        <select style={{ marginLeft: '565px', fontSize: '17px' }}>
+                            <option>Sort by relevance</option>
+                            <option >Price : High to low</option>
+                            <option>Price : Low to High</option>
+                            <option>Newest Arrivals</option>
+                     </select>
                     </Typography>
                     </Toolbar>
                </div>

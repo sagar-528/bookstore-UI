@@ -62,6 +62,17 @@ class HTTPServices{
             .then(res => console.log(res))
     }
     
+    fetchAllBookAsc(callback) {
+        fetch('http://localhost:8080/verifyaccount/sort-asc/price')
+        .then(res => res.json())
+        .then(values => callback(values))
+     }
+
+     fetchAllBookDesc(callback) {
+        fetch('http://localhost:8080/verifyaccount/sort-desc/price')
+        .then(res => res.json())
+        .then(values => callback(values))
+     }
 }
 
 export default HTTPServices;

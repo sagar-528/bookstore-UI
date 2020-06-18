@@ -251,7 +251,7 @@ export class Cart extends Component {
                 <div>
                 <Card className="customerCard" style={this.state.customerDetails ? { minHeight: '630px' } : { height: '60px' }}>
                     <div className="CustomerPage">
-                        <Typography className="customerDetails" style={{ fontSize: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>Customer Details</Typography>
+                        <Typography className="customerDetails">Customer Details</Typography>
                         <Button onClick={() => this.setEditable()}nstyle={{ fontSize: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }} style={this.state.editbutton ? { display: 'block' } : { display: 'none' }}>Edit</Button>
                     </div>
 
