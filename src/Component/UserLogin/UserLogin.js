@@ -8,8 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 
 
@@ -18,12 +19,14 @@ export class UserLogin extends Component {
         return (
             <div>
                 <div>
-                    <Headerbar />
-                        <Container maxWidth="xs" style={{marginTop:'50px', marginBottom:'110px'}}>
+                    <Container maxWidth="xs" style={{ marginTop:'50px', marginBottom:'110px' }}>
                         <CssBaseline />
-                            <div className="paper">
-                             <Typography component="h1" variant="h5">
-                                <AccountCircleIcon /> Sign In 
+                            <div >
+                            <Avatar style={{marginLeft:'170px',marginBottom:'10px', backgroundColor: '#3d5afe'}}>
+                                <AccountCircleIcon />
+                            </Avatar>
+                             <Typography component="h1" variant="h5" style={{marginLeft:'150px'}}>
+                                 Sign In 
                             </Typography>
                             <form noValidate>
                                 <TextField
@@ -52,6 +55,7 @@ export class UserLogin extends Component {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
+                            <Link to="/" style={{ marginTop:'20px', textDecoration: 'none' }}>
                             <Button
                                 type="submit"
                                 fullWidth
@@ -61,23 +65,23 @@ export class UserLogin extends Component {
                             >
                                 Sign In
                             </Button>
-                        <Grid container>
-                            <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
                             </Link>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                <Link to="/SignUp" style={{ marginTop:'20px', textDecoration: 'none' }}>
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                            <Link href="#" variant="body2" style={{marginTop:'20px'}}>
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                            </Grid>
-                        </Grid>
-                </form>
-                </div>
-            </Container>
+                            </form>
+                        </div>
+                    </Container>
             <div style={{marginTop: '40px'}}>
-            <Footer />
         </div>
     </div>
 </div>
