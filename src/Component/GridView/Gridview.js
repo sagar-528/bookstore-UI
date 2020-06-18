@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import Bookview from './BookView/Bookview'
+import Bookview from '../BookView/Bookview'
 
 const useStyles = createMuiTheme({
     root: {
