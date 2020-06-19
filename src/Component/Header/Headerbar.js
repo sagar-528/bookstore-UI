@@ -1,149 +1,52 @@
-import React from 'react'
+import React, { Component } from 'react'
 import AppBar from '@material-ui/core/AppBar';
-import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { fade, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import MenuBookTwoToneIcon from '@material-ui/icons/MenuBookTwoTone';
+import Icon from "@material-ui/core/Icon";
 import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    backgroundColor: "#9F3037"
-  },
-
-  icon: {
-    marginLeft: 50
-  },
-
-  grow: {
-    flexGrow: 1,
-  },
-
-  menuButton: {
-    marginRight: theme.spacing(0.5),
-  },
-
-  title: {
-    display: 'none',
-    marginLeft: 8,
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-    fontFamily: 'fontawesome',
-    
-  },
-
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 1.0),
-    '&:hover': {
-    backgroundColor: fade(theme.palette.common.white, 1.0),
-    },
-    
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: '45%',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'darkgrey'
-  },
-  inputRoot: {
-    color: 'grey',
-  },
-  ShoppingCartRoundedIcon: {
-    marginRight: theme.spacing(0.5),
-},
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-}));
-
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -3,
-    top: 7,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-  },
-}))(Badge);
-
-function Headerbar() {
-  const classes = useStyles();
-  return (
-    <div className={classes.grow} >
-      <AppBar position="static" className={classes.appBar}>
+export class Headerbar extends Component {
+  render() {
+    return (
+      <div>
+      <AppBar position="static" style={{ backgroundColor: '#A03037', top: '0' }}>
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap> 
-          <Link to= '/' style={{ textDecoration: 'none', color: 'white' }}>
-          &#xf02d; Bookstore
+        <Typography variant="h6" noWrap> 
+         <Link to= '/' style={{ textDecoration: 'none', color: 'white', fontFamily: 'fontawesome' }}>
+            &#xf02d; Bookstore
           </Link>
-        </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
+          </Typography>
+          <div style={{display:'flex',justifyContent:'start',marginLeft:'20px',borderRadius:'4px',backgroundColor:'aliceblue',width:'40%'}}>
+            <SearchIcon style={{ color: 'grey', margin: '1%' }} />
             <InputBase
               placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
+              style={{ width: '100%' }}
             />
           </div>
-          <div className={classes.grow} />
+          <div style={{flexGrow: 1}}/>
               <Typography variant="h6" style={{fontFamily: 'fontawesome', paddingRight: 50}}>
                 <Link to= '/WishList' style={{ textDecoration: 'none', color: 'white'}}>
-                <StyledBadge badgeContent={2} color="secondary">
+                <Badge badgeContent={2} color="secondary">
                   WhishList &#xf004;
-                </StyledBadge>
+                </Badge>
                 </Link>
               </Typography>
           <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 20}}>
           <Link to= '/Cart' style={{ textDecoration: 'none', color: 'white' }}>
-          <StyledBadge badgeContent={1} color="secondary">
+          <Badge badgeContent={1} color="secondary">
              Cart &#xf217;
-          </StyledBadge>
+          </Badge>
           </Link>
           </Typography>
         </Toolbar>
       </AppBar>
-    </div>
-  )
+    </div >
+    )
+  }
 }
-
-
 
 export default Headerbar

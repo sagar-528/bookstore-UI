@@ -73,6 +73,13 @@ class HTTPServices{
         .then(res => res.json())
         .then(values => callback(values))
      }
+
+     fetchAllSearchBook(searchText, callback) {
+        console.log("text", searchText)
+        fetch(`http://localhost:8080/verifyaccount/searchbooks/${searchText}`)
+        .then(res => res.json())
+        .then(values => callback(values))
+    }
 }
 
 export default HTTPServices;

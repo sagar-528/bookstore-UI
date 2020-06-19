@@ -30,9 +30,9 @@ componentDidMount() {
     render() {
         return (
             <div>
-                <Headerbar data={this.state.books.map.length}/>
+                <Headerbar/>
                 <div style={{ width: '74%', margin: 'auto' }}>
-                <Lowerbar data={this.state.books.length} book={this.state.books}/>
+                <Lowerbar data={this.state.books.length}/>
                 <Gridview data={this.state.books} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%', marginTop: '2%' }}>
