@@ -6,6 +6,7 @@ import WishList from './Component/WishList/WishList'
 import ConfirmOrder from './Component/ConfirmOrder/ConfirmOrder'
 import UserLogin from './Component/UserLogin/UserLogin'
 import SignUp from './Component/SignUp/SignUp'
+import Headerbar from './Component/Header/Headerbar'
 
 
 class AppRouter extends Component {
@@ -20,6 +21,7 @@ class AppRouter extends Component {
                         <Route path="/ConfirmOrder" component={ConfirmOrder} />
                         <Route path="/UserLogin" component={UserLogin} />
                         <Route path="/SignUp" component={SignUp} />
+                        <Route path="/header" component={Headerbar} />
                     </Switch>      
                 </div>
             </BrowserRouter>

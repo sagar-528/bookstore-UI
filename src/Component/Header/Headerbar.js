@@ -17,9 +17,25 @@ export class Headerbar extends Component {
     super(props)
   
     this.state = {
+      searchText: ''
     }
   }
   
+  handleChangeSearchText = async(e) => {
+    await this.setState({
+         searchText: e.target.value
+     })
+     if (this.state.searchText !== '') {
+         data.fetchAllSearchBook(this.state.searchText, response => {
+             console.log(this.state.searchText)
+             this.setState({
+                 books: response
+             })
+         })
+     }
+ }
+
+
   render() {
     return (
       <div>
@@ -31,7 +47,7 @@ export class Headerbar extends Component {
           </Link>
           </Typography>
           <div style={{display:'flex',justifyContent:'start',marginLeft:'20px',borderRadius:'4px',backgroundColor:'aliceblue',width:'40%'}}>
-            <SearchIcon style={{ color: 'grey', margin: '1%' }} />
+            <SearchIcon style={{ color: 'grey', margin: '1%' }} onChange={(e) => this.handleChangeSearchText(e)}/>
             <InputBase
               placeholder="Search…"
               style={{ width: '100%' }}
