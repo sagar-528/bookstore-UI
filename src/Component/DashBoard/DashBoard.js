@@ -14,7 +14,7 @@ constructor(props) {
     this.state = {
         books: []
     }
-
+    this.setbooks = this.setbooks.bind(this);
 }
 
 componentDidMount() {
@@ -26,13 +26,21 @@ componentDidMount() {
     })
 }
 
+setbooks(newbooks) {
+    console.log('dashboard',newbooks);
+    console.log('hi',this);
+    this.setState({
+        books: newbooks
+    })
+    console.log('bind',this.state.books)
+}
 
     render() {
         return (
             <div>
-                <Headerbar/>
+                <Headerbar function={this.setbooks} />
                 <div style={{ width: '74%', margin: 'auto' }}>
-                <Lowerbar data={this.state.books.length}/>
+                <Lowerbar data={this.state.books.length} function={this.setbooks}/>
                 <Gridview data={this.state.books} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%', marginTop: '2%' }}>

@@ -8,31 +8,27 @@ export class Lowerbar extends Component {
     constructor(props){
         super(props)
         this.state={
-            books: []
+
         }
     }
     
-    handleChangeBookSorting = (e) => {
+    handleBookSorting = (e) => {
         if (e.target.value === "Price : High to Low")
             data.fetchAllBookDesc(response => {
-                console.log(response)
-                this.setState({
-                    books: response.content
-                })
+                console.log('high',response.content)
+                this.props.function (response.content) 
+                
             })
         else if (e.target.value === "Price : Low to High")
             data.fetchAllBookAsc(response => {
-                console.log(response)
-                this.setState({
-                    books: response.content
-                })
+                console.log('low',response.content)
+                this.props.function (response.content) 
             })
         else
             data.fetchgetAllBook(response => {
                 console.log(response)
-                this.setState({
-                    books: response
-                })
+                console.log('getbook',response)
+                this.props.function (response)
             })
     }
 
@@ -43,7 +39,7 @@ export class Lowerbar extends Component {
                 <Toolbar>
                     <Typography edge="start" variant="h6" >
                         Books ({this.props.data} Items)
-                        <select style={{ marginLeft: '565px', fontSize: '17px' }} onChange={this.handleChangeBookSorting} >
+                        <select style={{ marginLeft: '565px', fontSize: '17px' }} onChange={this.handleBookSorting} >
                             <option>Sort by relevance</option>
                             <option >Price : High to Low</option>
                             <option>Price : Low to High</option>

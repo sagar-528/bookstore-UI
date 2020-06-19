@@ -8,8 +8,18 @@ import MenuBookTwoToneIcon from '@material-ui/icons/MenuBookTwoTone';
 import Icon from "@material-ui/core/Icon";
 import Badge from '@material-ui/core/Badge';
 import { Link } from 'react-router-dom';
+import HTTPServices from '../../HTTPServices';
 
+var data = new HTTPServices()
 export class Headerbar extends Component {
+  
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+    }
+  }
+  
   render() {
     return (
       <div>
