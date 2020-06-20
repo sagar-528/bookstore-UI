@@ -9,6 +9,7 @@ import Icon from "@material-ui/core/Icon";
 import Badge from '@material-ui/core/Badge';
 import { Link } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
+import PersonIcon from '@material-ui/icons/Person';
 
 var data = new HTTPServices()
 export class Headerbar extends Component {
@@ -40,18 +41,23 @@ export class Headerbar extends Component {
             </Link>
           </div>
           <div style={{flexGrow: 1}}/>
-              <Typography variant="h6" style={{fontFamily: 'fontawesome', paddingRight: 50}}>
+              <Typography variant="h6" style={{fontFamily: 'fontawesome', paddingRight: 20}}>
                 <Link to= '/WishList' style={{ textDecoration: 'none', color: 'white'}}>
                 <Badge badgeContent={2} color="secondary">
                   WhishList &#xf004;
                 </Badge>
                 </Link>
               </Typography>
-          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 20}}>
+          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 60}}>
           <Link to= '/Cart' style={{ textDecoration: 'none', color: 'white' }}>
           <Badge badgeContent={1} color="secondary">
              Cart &#xf217;
           </Badge>
+          </Link>
+          </Typography>
+          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 10}}>
+          <Link to= '/UserLogin' style={{ textDecoration: 'none', color: 'white' }}>
+             SignIn &#xf2be;
           </Link>
           </Typography>
         </Toolbar>
