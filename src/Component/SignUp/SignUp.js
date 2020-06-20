@@ -64,6 +64,45 @@ validateForm() {
       }
   }
 
+  if (!fields["lastName"]) {
+    formIsValid = false;
+    errors["lastName"] = "*Please enter your name.";
+}
+
+if (typeof fields["lastName"] !== "undefined") {
+    if (!fields["lastName"].match(/^[a-zA-Z]{3,}$/)) {
+        formIsValid = false;
+        errors["lastName"] = "*Please enter alphabet only.";
+    }
+}
+
+if (!fields["emailId"]) {
+  formIsValid = false;
+  errors["emailId"] = "*Please enter your email-ID.";
+}
+
+if (typeof fields["emailId"] !== "undefined") {
+  //regular expression for email validation
+  var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+  if (!pattern.test(fields["emailId"])) {
+      formIsValid = false;
+      errors["emailId"] = "*Please enter valid email-ID.";
+  }
+}
+
+if (!fields["password"]) {
+  formIsValid = false;
+  errors["password"] = "*Please enter your password.";
+}
+
+if (typeof fields["password"] !== "undefined") {
+  //  if (!fields["password"].match(/((?=.*[0-9])(?=.*[a-z]?)(?=.*[A-Z])(?=.*[@#*$%]).{3,})"/)) {
+      if (!fields["password"].match(/^[a-zA-Z0-9]{3,}$/)) {
+      formIsValid = false;
+      errors["password"] = "*Please enter valid password.";
+  }
+}
+
   this.setState({
     errors: errors
 });
@@ -98,29 +137,33 @@ return formIsValid;
                   autoFocus
                   style={{ outlineColor: 'coral' }}
                 />
-                <div style={{color:'red',marginBottom:'12px'}}>{this.state.errors.firstName}</div>
+                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.firstName }</div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
                   required
                   fullWidth
-                  id="lastName"
+                  value={this.state.fields.lastName}
+                  onChange={this.handleChange}
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
                 />
+                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.lastName }</div>
               </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
+                value={this.state.fields.emailId}
+                onChange={this.handleChange}
                 label="Email Address"
-                name="email"
+                name="emailId"
                 autoComplete="email"
               />
+              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.emailId }</div>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -130,12 +173,13 @@ return formIsValid;
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
+                value={this.state.fields.password}
+                onChange={this.handleChange}
                 autoComplete="current-password"
               />
+             <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>
           </Grid>
-          <Link to="/UserLogin" style={{ marginTop:'20px', textDecoration: 'none' }}>
           <Button
             type="submit"
             fullWidth
@@ -146,7 +190,6 @@ return formIsValid;
           >
             Sign Up
           </Button>
-          </Link>
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/UserLogin" style={{ textDecoration: 'none' }}>
