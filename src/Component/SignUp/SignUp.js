@@ -102,6 +102,30 @@ if (typeof fields["password"] !== "undefined") {
   }
 }
 
+if (!fields["mobile"]) {
+  formIsValid = false;
+  errors["mobile"] = "*Please enter your mobile no.";
+}
+
+if (typeof fields["mobile"] !== "undefined") {
+  if (!fields["mobile"].match(/^[0-9]{10}$/)) {
+      formIsValid = false;
+      errors["mobile"] = "*Please enter valid mobile no.";
+  }
+}
+
+if (!fields["username"]) {
+  formIsValid = false;
+  errors["username"] = "*Please enter your username.";
+}
+
+if (typeof fields["username"] !== "undefined") {
+  if (!fields["username"].match(/^[a-zA-Z]{3,}$/)) {
+      formIsValid = false;
+      errors["username"] = "*Please enter alphabet characters only.";
+  }
+}
+
   this.setState({
     errors: errors
 });
@@ -148,9 +172,38 @@ return formIsValid;
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
+                  style={{ outlineColor: 'coral' }}
                 />
                 <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.lastName }</div>
               </Grid>
+              <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="UserName"
+                name="userName"
+                value={this.state.fields.username} 
+                onChange={this.handleChange}
+                autoComplete="UserName"
+                style={{ outlineColor: 'coral' }}
+              />
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.username}</div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Phone Number"
+                name="Phone no."
+                value={this.state.fields.mobile} 
+                onChange={this.handleChange}
+                autoComplete="Phone Number"
+                style={{ outlineColor: 'coral' }}
+              />
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.mobile}</div>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -161,6 +214,7 @@ return formIsValid;
                 label="Email Address"
                 name="emailId"
                 autoComplete="email"
+                style={{ outlineColor: 'coral' }}
               />
               <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.emailId }</div>
             </Grid>
@@ -175,6 +229,7 @@ return formIsValid;
                 value={this.state.fields.password}
                 onChange={this.handleChange}
                 autoComplete="current-password" 
+                style={{ outlineColor: 'coral' }}
               />
              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>

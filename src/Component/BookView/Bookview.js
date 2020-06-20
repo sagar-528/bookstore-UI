@@ -19,10 +19,10 @@ export class Bookview extends Component {
         this.handleOnHoverCard = this.handleOnHoverCard.bind(this)
     }
 
-    handleOnHoverCard = () => {
+    handleOnHoverCard = (e) => {
+        console.log("entering");
         this.setState({
             cardHover: !this.state.cardHover
-            
         })
     }
 
@@ -39,8 +39,8 @@ handleClickAddToWishList = (e) => {
 
     render() {
         return (  
-                <div onMouseOver= {() => this.handleOnHoverCard()} onMouseOut={() => this.handleOnHoverCard()}>
-                <Card className="card"  id="info" variant="outlined">
+                <div onMouseEnter= {() => this.handleOnHoverCard()} onMouseLeave={() => this.handleOnHoverCard()}>
+                    <Card className="card"  id="info" variant="outlined">
                     <CardActionArea>
                         <div className="divName">
                             <img src={this.props.data.picPath} width="100px" height="130px" ></img>
