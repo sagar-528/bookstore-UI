@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
     
     footer: {
-        backgroundColor: "#4e342e",
+        backgroundColor: "#4e342e"
     },
 }));
 function Footer() {

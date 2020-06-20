@@ -31,12 +31,11 @@ checkout() {
   if (this.validateForm()) 
       {
           console.log("form submitted");
-      
       this.setState({
         continue: !this.state.continue
     })
   }
-  }
+}
 
 handleChange(e) {
   let fields = this.state.fields;
@@ -175,7 +174,7 @@ return formIsValid;
                 type="password"
                 value={this.state.fields.password}
                 onChange={this.handleChange}
-                autoComplete="current-password"
+                autoComplete="current-password" 
               />
              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>

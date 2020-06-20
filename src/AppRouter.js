@@ -7,7 +7,7 @@ import ConfirmOrder from './Component/ConfirmOrder/ConfirmOrder'
 import UserLogin from './Component/UserLogin/UserLogin'
 import SignUp from './Component/SignUp/SignUp'
 import Headerbar from './Component/Header/Headerbar'
-
+import Search from './Component/Search/Search'
 
 class AppRouter extends Component {
     render() {
@@ -21,6 +21,7 @@ class AppRouter extends Component {
                         <Route path="/ConfirmOrder" component={ConfirmOrder} />
                         <Route path="/UserLogin" component={UserLogin} />
                         <Route path="/SignUp" component={SignUp} />
+                        <Route path='/search' component={Search} />
                         <Route path="/header" component={Headerbar} />
                     </Switch>      
                 </div>
