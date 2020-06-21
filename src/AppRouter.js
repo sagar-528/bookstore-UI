@@ -10,6 +10,7 @@ import Headerbar from './Component/Header/Headerbar'
 import Search from './Component/Search/Search'
 import ForgotPassword from './Component/ForgotPassword/ForgotPassword'
 
+
 class AppRouter extends Component {
     render() {
         return (

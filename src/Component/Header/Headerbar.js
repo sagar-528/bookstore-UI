@@ -9,6 +9,7 @@ import Icon from "@material-ui/core/Icon";
 import Badge from '@material-ui/core/Badge';
 import { Link } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
+import PersonIcon from '@material-ui/icons/Person';
 
 var data = new HTTPServices()
 export class Headerbar extends Component {
@@ -31,11 +32,13 @@ export class Headerbar extends Component {
           </Link>
           </Typography>
           <div style={{display:'flex',justifyContent:'start',marginLeft:'20px',borderRadius:'4px',backgroundColor:'aliceblue',width:'40%'}}>
-            <SearchIcon style={{ color: 'grey', margin: '1%' }} />
+            <SearchIcon style={{ color: 'grey', margin: '1%' }}/>
+            <Link to="/search" style={{ textDecoration: 'none', color: 'white', fontFamily: 'fontawesome' }}>
             <InputBase
               placeholder="Search…"
               style={{ width: '100%' }}
             />
+            </Link>
           </div>
           <div style={{flexGrow: 1}}/>
               <Typography variant="h6" style={{fontFamily: 'fontawesome', paddingRight: 20}}>
@@ -45,7 +48,7 @@ export class Headerbar extends Component {
                 </Badge>
                 </Link>
               </Typography>
-          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 50}}>
+          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 60}}>
           <Link to= '/Cart' style={{ textDecoration: 'none', color: 'white' }}>
           <Badge badgeContent={1} color="secondary">
              Cart &#xf217;

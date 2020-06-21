@@ -14,9 +14,9 @@ import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 
 export class SignUp extends Component {
-  
-  constructor(props) {
-    super(props)
+    
+constructor(props) {
+  super(props)
   this.state = {
     fields: {},
     errors: {},
@@ -25,17 +25,6 @@ export class SignUp extends Component {
   this.handleChange = this.handleChange.bind(this);
   this.checkout = this.checkout.bind(this);
 }
-
-checkout() {
-  if (this.validateForm()) 
-      {
-          console.log("form submitted");
-      
-      this.setState({
-        continue: !this.state.continue
-    })
-  }
-  }
 
 handleChange(e) {
   let fields = this.state.fields;
@@ -99,7 +88,6 @@ if (typeof fields["password"] !== "undefined") {
       errors["password"] = "*Please enter valid password.";
   }
 }
-
   this.setState({
     errors: errors
 });
@@ -107,34 +95,62 @@ return formIsValid;
 
 }
 
-    render() {
-        return (
-            <div>
-    <Container component="main" maxWidth="xs" style={{ marginTop:'50px', marginBottom:'110px' }}>
-      <CssBaseline />
-      <div >
-        <Avatar style={{marginLeft:'170px',marginBottom:'10px', backgroundColor: '#3d5afe'}}>
-        <AccountCircleIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" style={{marginLeft:'150px', marginBottom:'15px'}}>
-          Sign up
-        </Typography>
-        <form noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+  render() {
+    return (
+      <div>
+          <Container component="main" maxWidth="xs" style={{ marginTop:'50px', marginBottom:'110px' }}>
+            <CssBaseline />
+          <div >
+            <Avatar style={{marginLeft:'170px',marginBottom:'10px', backgroundColor: '#3d5afe'}}>
+              <AccountCircleIcon />
+            </Avatar>
+              <Typography component="h1" variant="h5" style={{marginLeft:'150px', marginBottom:'15px'}}>
+                Sign up
+              </Typography>
+            <form noValidate>
+              <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="fname"
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  value={this.state.fields.firstName}
+                  onChange={this.handleChange}
+                  label="First Name"
+                  autoFocus
+                  style={{ outlineColor: 'coral' }}
+                />
+                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.firstName }</div>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  value={this.state.fields.lastName}
+                  onChange={this.handleChange}
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lname"
+                  style={{ outlineColor: 'coral' }}
+                />
+                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.lastName }</div>
+              </Grid>
+              <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
                 variant="outlined"
                 required
                 fullWidth
-                value={this.state.fields.firstName}
+                label="UserName"
+                name="userName"
+                value={this.state.fields.username} 
                 onChange={this.handleChange}
+                autoComplete="UserName"
                 style={{ outlineColor: 'coral' }}
-                label="User Name"
-                autoFocus
               />
-               <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.firstName }</div>
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.username}</div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -142,13 +158,13 @@ return formIsValid;
                 required
                 fullWidth
                 label="Phone Number"
-                name="mobile"
+                name="Phone no."
                 value={this.state.fields.mobile} 
                 onChange={this.handleChange}
+                autoComplete="Phone Number"
                 style={{ outlineColor: 'coral' }}
-                autoComplete="lname"
               />
-              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.mobile }</div>
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.mobile}</div>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -159,8 +175,8 @@ return formIsValid;
                 onChange={this.handleChange}
                 label="Email Address"
                 name="emailId"
+                autoComplete="email"
                 style={{ outlineColor: 'coral' }}
-                autoComplete="emailId"
               />
               <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.emailId }</div>
             </Grid>
@@ -174,13 +190,12 @@ return formIsValid;
                 type="password"
                 value={this.state.fields.password}
                 onChange={this.handleChange}
+                autoComplete="current-password" 
                 style={{ outlineColor: 'coral' }}
-                autoComplete="current-password"
               />
-              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
+             <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>
           </Grid>
-          
           <Button
             type="submit"
             fullWidth
@@ -188,11 +203,9 @@ return formIsValid;
             color="primary"
             style={{marginTop:'10px',marginBottom:'10px'}}
             onClick={() => this.checkout()}
-           
           >
             Sign Up
           </Button>
-          
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/UserLogin" style={{ textDecoration: 'none' }}>
