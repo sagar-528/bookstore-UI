@@ -34,21 +34,30 @@ handleChange(e) {
   });
 }
 
+checkout() {
+
+  if (this.validateForm()) {
+      this.setState({
+          continue: !this.state.continue,
+      })
+  }
+}
+
 
 validateForm() {
   let fields = this.state.fields;
   let errors = {};
   let formIsValid = true;
 
-  if (!fields["firstName"]) {
+  if (!fields["username"]) {
       formIsValid = false;
-      errors["firstName"] = "*Please enter your name.";
+      errors["username"] = "*Enter your UserName.";
   }
 
-  if (typeof fields["firstName"] !== "undefined") {
-      if (!fields["firstName"].match(/^[a-zA-Z]{3,}$/)) {
+  if (typeof fields["username"] !== "undefined") {
+      if (!fields["username"].match(/^[a-zA-Z]{3,}$/)) {
           formIsValid = false;
-          errors["firstName"] = "*Please enter alphabet only.";
+          errors["username"] = "*Please enter alphabet only.";
       }
   }
 
@@ -109,35 +118,6 @@ return formIsValid;
               </Typography>
             <form noValidate>
               <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={this.state.fields.firstName}
-                  onChange={this.handleChange}
-                  label="First Name"
-                  autoFocus
-                  style={{ outlineColor: 'coral' }}
-                />
-                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.firstName }</div>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={this.state.fields.lastName}
-                  onChange={this.handleChange}
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                  style={{ outlineColor: 'coral' }}
-                />
-                <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.lastName }</div>
-              </Grid>
               <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
