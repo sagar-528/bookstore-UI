@@ -22,8 +22,8 @@ export class ForgotPassword extends Component {
                             <Avatar style={{marginLeft:'170px',marginBottom:'10px', backgroundColor: '#3d5afe'}}>
                                 <AccountCircleIcon />
                             </Avatar>
-                             <Typography component="h1" variant="h5" style={{marginLeft:'150px'}}>
-                                 Forgot PassWord
+                             <Typography component="h1" variant="h5" style={{marginLeft:'110px', marginBottom:"20px"}}>
+                                 Forgot Password
                             </Typography>
                             <form noValidate>
                                 <TextField

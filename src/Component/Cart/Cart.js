@@ -309,7 +309,8 @@ export class Cart extends Component {
                                     <div style={{ marginLeft: '5%' }}>
                                             <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
                                             <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
+                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price * book.bookQuantity}</Typography>
+                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Qty. {book.bookQuantity}</Typography>
                                         <div>
                                     </div>
                                 </div>
