@@ -14,6 +14,99 @@ import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 
 export class SignUp extends Component {
+  
+  constructor(props) {
+    super(props)
+  this.state = {
+    fields: {},
+    errors: {},
+    continue: true
+  }
+  this.handleChange = this.handleChange.bind(this);
+  this.checkout = this.checkout.bind(this);
+}
+
+checkout() {
+  if (this.validateForm()) 
+      {
+          console.log("form submitted");
+      
+      this.setState({
+        continue: !this.state.continue
+    })
+  }
+  }
+
+handleChange(e) {
+  let fields = this.state.fields;
+  fields[e.target.name] = e.target.value;
+  this.setState({
+      fields
+  });
+}
+
+
+validateForm() {
+  let fields = this.state.fields;
+  let errors = {};
+  let formIsValid = true;
+
+  if (!fields["firstName"]) {
+      formIsValid = false;
+      errors["firstName"] = "*Please enter your name.";
+  }
+
+  if (typeof fields["firstName"] !== "undefined") {
+      if (!fields["firstName"].match(/^[a-zA-Z]{3,}$/)) {
+          formIsValid = false;
+          errors["firstName"] = "*Please enter alphabet only.";
+      }
+  }
+
+  if (!fields["mobile"]) {
+    formIsValid = false;
+    errors["mobile"] = "*Please enter your mobile no.";
+}
+
+if (typeof fields["mobile"] !== "undefined") {
+    if (!fields["mobile"].match(/^[0-9]{10}$/)) {
+        formIsValid = false;
+        errors["mobile"] = "*Please enter valid mobile no.";
+    }
+}
+
+if (!fields["emailId"]) {
+  formIsValid = false;
+  errors["emailId"] = "*Please enter your email-ID.";
+}
+
+if (typeof fields["emailId"] !== "undefined") {
+  if (!fields["emailId"].match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)) {
+      formIsValid = false;
+      errors["emailId"] = "*Please enter valid email-ID.";
+  }
+}
+
+if (!fields["password"]) {
+  formIsValid = false;
+  errors["password"] = "*Please enter your password.";
+}
+
+if (typeof fields["password"] !== "undefined") {
+  //  if (!fields["password"].match(/((?=.*[0-9])(?=.*[a-z]?)(?=.*[A-Z])(?=.*[@#*$%]).{3,})"/)) {
+      if (!fields["password"].match(/^[a-zA-Z0-9]{3,}$/)) {
+      formIsValid = false;
+      errors["password"] = "*Please enter valid password.";
+  }
+}
+
+  this.setState({
+    errors: errors
+});
+return formIsValid;
+
+}
+
     render() {
         return (
             <div>
@@ -35,32 +128,41 @@ export class SignUp extends Component {
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                value={this.state.fields.firstName}
+                onChange={this.handleChange}
+                style={{ outlineColor: 'coral' }}
+                label="User Name"
                 autoFocus
               />
+               <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.firstName }</div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
+                label="Phone Number"
+                name="mobile"
+                value={this.state.fields.mobile} 
+                onChange={this.handleChange}
+                style={{ outlineColor: 'coral' }}
                 autoComplete="lname"
               />
+              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.mobile }</div>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
+                value={this.state.fields.emailId}
+                onChange={this.handleChange}
                 label="Email Address"
-                name="email"
-                autoComplete="email"
+                name="emailId"
+                style={{ outlineColor: 'coral' }}
+                autoComplete="emailId"
               />
+              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.emailId }</div>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -70,22 +172,27 @@ export class SignUp extends Component {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
+                value={this.state.fields.password}
+                onChange={this.handleChange}
+                style={{ outlineColor: 'coral' }}
                 autoComplete="current-password"
               />
+              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>
           </Grid>
-          <Link to="/UserLogin" style={{ textDecoration: 'none'}}>
+          
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             style={{marginTop:'10px',marginBottom:'10px'}}
+            onClick={() => this.checkout()}
+           
           >
             Sign Up
           </Button>
-          </Link>
+          
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/UserLogin" style={{ textDecoration: 'none' }}>

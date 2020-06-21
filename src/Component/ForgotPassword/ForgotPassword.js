@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Headerbar from '../Header/Headerbar';
-import Footer from '../Footer/Footer';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,8 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 
-
-export class UserLogin extends Component {
+export class ForgotPassword extends Component {
     render() {
         return (
             <div>
@@ -40,22 +37,11 @@ export class UserLogin extends Component {
                                     autoComplete="email"
                                     autoFocus
                                 />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                />
-                            <FormControlLabel
+                                 <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <Link to="/" style={{ marginTop:'20px', textDecoration: 'none' }}>
+                            <Link to="/UserLogin" style={{ marginTop:'20px', textDecoration: 'none' }}>
                             <Button
                                 type="submit"
                                 fullWidth
@@ -63,30 +49,18 @@ export class UserLogin extends Component {
                                 color="primary"
                                 style={{marginBottom:'10px'}}
                             >
-                                Sign In
+                                Confirm
                             </Button>
                             </Link>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link to="/ForgotPassword" style={{ marginTop:'20px', textDecoration: 'none' }}>
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                <Link to="/SignUp" style={{ marginTop:'20px', textDecoration: 'none' }}>
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                                </Grid>
-                            </Grid>
                             </form>
                         </div>
                     </Container>
             <div style={{marginTop: '40px'}}>
         </div>
     </div>
-</div>
+            </div>
         )
     }
 }
 
-export default UserLogin
+export default ForgotPassword

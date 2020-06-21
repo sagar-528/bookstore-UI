@@ -135,18 +135,6 @@ export class Cart extends Component {
                 }
             }
     
-            if (!fields["mobile"]) {
-                formIsValid = false;
-                errors["mobile"] = "*Please enter your mobile no.";
-            }
-    
-            if (typeof fields["mobile"] !== "undefined") {
-                if (!fields["mobile"].match(/^[0-9]{10}$/)) {
-                    formIsValid = false;
-                    errors["mobile"] = "*Please enter valid mobile no.";
-                }
-            }
-    
             if (!fields["landmark"]) {
                 formIsValid = false;
                 errors["landmark"] = "*Please enter your landmark.";
@@ -255,14 +243,10 @@ export class Cart extends Component {
                         <Button onClick={() => this.setEditable()}nstyle={{ fontSize: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }} style={this.state.editbutton ? { display: 'block' } : { display: 'none' }}>Edit</Button>
                     </div>
 
-                    <div className="textFieldRow">
+                    <div style={{marginLeft:'30px'}}>
                         <div>
                             <TextField name="name" label="Name" variant="outlined" value={this.state.fields.name} onChange={this.handleChange} style={{ outlineColor: 'coral' }} />
                             <div className="errorMsg">{this.state.errors.name}</div>
-                        </div>
-                        <div>
-                            <TextField name="mobile" label="Phone Number" variant="outlined" value={this.state.fields.mobile} onChange={this.handleChange} />
-                            <div className="errorMsg">{this.state.errors.mobile}</div>
                         </div>
                     </div><br></br>
 

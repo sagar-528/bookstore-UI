@@ -23,7 +23,7 @@ render() {
         <MuiThemeProvider theme={useStyles}>
         <div className={useStyles.root} style={{display:'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
         {this.props.data.map(o => (
-                        <Bookview data={o} function={this.props.function}/>
+                        <Bookview data={o}/>
                     ))}
         </div>
         </MuiThemeProvider>
