@@ -23,7 +23,7 @@ export class ForgotPassword extends Component {
                                 <AccountCircleIcon />
                             </Avatar>
                              <Typography component="h1" variant="h5" style={{marginLeft:'110px', marginBottom:"20px"}}>
-                                 Forgot Password
+                                 Reset Password
                             </Typography>
                             <form noValidate>
                                 <TextField
