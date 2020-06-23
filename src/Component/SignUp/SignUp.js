@@ -43,62 +43,67 @@ handleSetName = async(e) => {
   await this.setState({
     userName : e.target.value
   })
+  console.log(this.state.userName);
+  
 }
 
 handleSetPassword = async(e) => {
   await this.setState({
     password : e.target.value
   })
+  console.log(this.state.password);
+  
 }
 
 handleSetPhoneNumber = async(e) => {
   await this.setState({
     phoneNumber : e.target.value
   })
+  console.log(this.state.phoneNumber);
+  
 }
 
 handleSetEmailAddress = async(e) => {
   await this.setState({
     emailId : e.target.value
   })
+  console.log(this.state.emailId);
+  
 }
 
 handleSelectRoleAdmin = () => {
   this.setState({
     admin: !this.state.admin
   })
+  console.log(this.state.admin);
+  
 }
 
 handleSelectRoleUser = async() => {
   this.setState({
     user: !this.state.user
   })
+  console.log(this.state.userName);
+  
 }
 
 handleSubmitSignUpForm = () => {
   if (this.state.admin)
   this.setState({
-    role: this.state.role.push("Admin")
+    role: this.state.role.push("admin")
   })
-
+  console.log(this.state.role);
+  
   if (this.state.user)
   this.setState({
-    role: this.state.role.push("User")
+    role: this.state.role.push("user")
   })
 
   data.signUpData(this.state.userName, this.state.password, this.state.emailId, this.state.phoneNumber, this.state.role)
 console.log(data.signUpData);
 }
 
-handleChange = (e) => {
-  let target = e.target;
-  let value = target.type === 'checkbox' ? target.checked : target.value;
-  let name = target.name;
 
-  this.setState({
-    [name]: value
-  });
-}
 
 handleChange(e) {
   let fields = this.state.fields;
@@ -256,8 +261,8 @@ return formIsValid;
           </Grid>
           <div className="typeRadio">Role</div>
                             <RadioGroup aria-label="Type" name="type" row>
-                                <FormControlLabel value="home" control={<Radio />} label="Admin" onChange={this.handleSelectRoleAdmin}/>
-                                <FormControlLabel value="work" control={<Radio />} label="User" onChange={this.handleSelectRoleUser}/>
+                                <FormControlLabel value="home" control={<Radio />} label="admin" onChange={this.handleSelectRoleAdmin}/>
+                                <FormControlLabel value="work" control={<Radio />} label="user" onChange={this.handleSelectRoleUser}/>
                             </RadioGroup>
           <Link to="/UserLogin" style={{ textDecoration: 'none' }}>
           <Button

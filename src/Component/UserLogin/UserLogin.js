@@ -15,6 +15,43 @@ import Container from '@material-ui/core/Container';
 
 
 export class UserLogin extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            email: '',
+            password: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleClick = () => {
+        this.props.history.push('/ResetPassword')
+      }
+    
+    handleSignUpPage = () => {
+        this.props.history.push('/SignUpForm')
+      }
+    
+    handleForgotPasswordPage = () => {
+        this.props.history.push('/ForgotPassword')
+      }
+    
+    handleChange(e) {
+        let target = e.target;
+        let value = target.type === 'checkbox' ? target.checked : target.value;
+        let name = target.name;
+    
+        this.setState({
+          [name]: value
+        });
+      }
+    
+      handleSubmit(e) {
+        e.preventDefault();
+      }
+
     render() {
         return (
             <div>
@@ -39,6 +76,7 @@ export class UserLogin extends Component {
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
+                                    value={this.state.email} onChange={this.handleChange}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -50,6 +88,7 @@ export class UserLogin extends Component {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    value={this.state.password} onChange={this.handleChange}
                                 />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
