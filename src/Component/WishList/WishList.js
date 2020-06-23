@@ -11,7 +11,6 @@ import './WishList.css'
 var data = new HTTTPServices();
 export class WishList extends Component {
 
-
     constructor(props) {
         super(props)
     

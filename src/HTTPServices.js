@@ -80,6 +80,38 @@ class HTTPServices{
         .then(res => res.json())
         .then(values => callback(values))
     }
+
+    signUpData(username, password, email, phoneNo, role) {
+        fetch("http://localhost:8080/api/auth/signup", {
+        method: 'POST',
+        headers: {
+            "content-type": "Application/json"
+        },
+        body: JSON.stringify({
+            "email": email, 
+            "password": password, 
+            "phoneNumber": phoneNo,
+            "role": role,
+            "username": username
+        })})
+        .then(res => res.text())
+        .then(res => console.log(res))
+    }
+
+    signInData(username, password) {
+        fetch("http://localhost:8080/api/auth/signin", {
+        method: 'POST',
+        headers: {
+            "content-type": "Application/json"
+        },
+        body: JSON.stringify({
+            "username": username,
+            "password": password
+        })})
+        .then(res => res.json())
+        .then(res => localStorage.setItem("token", res.accessToken))
+    }
+
 }
 
 export default HTTPServices;

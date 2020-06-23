@@ -24,6 +24,8 @@ export class Bookview extends Component {
         this.setState({
             cardHover: !this.state.cardHover
         })
+        console.log(this.state.cardHover);
+        
     }
 
     handleClickAddToCart = (e) => {
@@ -34,7 +36,6 @@ export class Bookview extends Component {
 handleClickAddToWishList = (e) => {
             book.addToWishList(101,e)
             console.log("sagar", e);
-            
         }
 
     render() {

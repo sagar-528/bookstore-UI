@@ -12,7 +12,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import HTTPServices from '../../HTTPServices';
 
+var data = new HTTPServices();
 export class SignUp extends Component {
     
 constructor(props) {
@@ -20,10 +24,80 @@ constructor(props) {
   this.state = {
     fields: {},
     errors: {},
-    continue: true
+    continue: true,
+    emailId: '',
+    password: '',
+    userName: '',
+    phoneNumber: '',
+    role: [],
+    hasAgreed: false,
+    roleChecked: false,
+    admin: false,
+    user: false
   }
   this.handleChange = this.handleChange.bind(this);
   this.checkout = this.checkout.bind(this);
+}
+
+handleSetName = async(e) => {
+  await this.setState({
+    userName : e.target.value
+  })
+}
+
+handleSetPassword = async(e) => {
+  await this.setState({
+    password : e.target.value
+  })
+}
+
+handleSetPhoneNumber = async(e) => {
+  await this.setState({
+    phoneNumber : e.target.value
+  })
+}
+
+handleSetEmailAddress = async(e) => {
+  await this.setState({
+    emailId : e.target.value
+  })
+}
+
+handleSelectRoleAdmin = () => {
+  this.setState({
+    admin: !this.state.admin
+  })
+}
+
+handleSelectRoleUser = async() => {
+  this.setState({
+    user: !this.state.user
+  })
+}
+
+handleSubmitSignUpForm = () => {
+  if (this.state.admin)
+  this.setState({
+    role: this.state.role.push("Admin")
+  })
+
+  if (this.state.user)
+  this.setState({
+    role: this.state.role.push("User")
+  })
+
+  data.signUpData(this.state.userName, this.state.password, this.state.emailId, this.state.phoneNumber, this.state.role)
+console.log(data.signUpData);
+}
+
+handleChange = (e) => {
+  let target = e.target;
+  let value = target.type === 'checkbox' ? target.checked : target.value;
+  let name = target.name;
+
+  this.setState({
+    [name]: value
+  });
 }
 
 handleChange(e) {
@@ -35,10 +109,10 @@ handleChange(e) {
 }
 
 checkout() {
-
   if (this.validateForm()) {
+    console.log("form submitted");
       this.setState({
-          continue: !this.state.continue,
+          continue: !this.state.continue
       })
   }
 }
@@ -49,27 +123,27 @@ validateForm() {
   let errors = {};
   let formIsValid = true;
 
-  if (!fields["username"]) {
+  if (!fields["Name"]) {
       formIsValid = false;
-      errors["username"] = "*Enter your UserName.";
+      errors["Name"] = "*Enter your Name.";
   }
 
-  if (typeof fields["username"] !== "undefined") {
-      if (!fields["username"].match(/^[a-zA-Z]{3,}$/)) {
+  if (typeof fields["Name"] !== "undefined") {
+      if (!fields["Name"].match(/^[a-zA-Z]{3,}$/)) {
           formIsValid = false;
-          errors["username"] = "*Please enter alphabet only.";
+          errors["Name"] = "*Please enter alphabet only.";
       }
   }
 
-  if (!fields["mobile"]) {
+  if (!fields["PhoneNumber"]) {
     formIsValid = false;
-    errors["mobile"] = "*Please enter your mobile no.";
+    errors["PhoneNumber"] = "*Please enter your mobile no.";
 }
 
-if (typeof fields["mobile"] !== "undefined") {
-    if (!fields["mobile"].match(/^[0-9]{10}$/)) {
+if (typeof fields["PhoneNumber"] !== "undefined") {
+    if (!fields["PhoneNumber"].match(/^[0-9]{10}$/)) {
         formIsValid = false;
-        errors["mobile"] = "*Please enter valid mobile no.";
+        errors["PhoneNumber"] = "*Please enter valid mobile no.";
     }
 }
 
@@ -123,14 +197,15 @@ return formIsValid;
                 variant="outlined"
                 required
                 fullWidth
-                label="UserName"
-                name="userName"
-                value={this.state.fields.username} 
+                label="Name"
+                name="Name"
+                value={this.state.fields.Name} 
                 onChange={this.handleChange}
-                autoComplete="UserName"
+                autoComplete="Name"
                 style={{ outlineColor: 'coral' }}
+                onChange={this.handleSetName}
               />
-              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.username}</div>
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.Name}</div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -139,12 +214,13 @@ return formIsValid;
                 fullWidth
                 label="Phone Number"
                 name="Phone no."
-                value={this.state.fields.mobile} 
+                value={this.state.fields.PhoneNumber} 
                 onChange={this.handleChange}
                 autoComplete="Phone Number"
                 style={{ outlineColor: 'coral' }}
+                onChange={this.handleSetPhoneNumber}
               />
-              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.mobile}</div>
+              <div style={{ color:'red',marginBottom:'12px' }}>{this.state.errors.PhoneNumber}</div>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -157,6 +233,7 @@ return formIsValid;
                 name="emailId"
                 autoComplete="email"
                 style={{ outlineColor: 'coral' }}
+                onChange={this.handleSetEmailAddress} 
               />
               <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.emailId }</div>
             </Grid>
@@ -172,10 +249,17 @@ return formIsValid;
                 onChange={this.handleChange}
                 autoComplete="current-password" 
                 style={{ outlineColor: 'coral' }}
+                onChange={this.handleSetPassword}
               />
              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>
           </Grid>
+          <div className="typeRadio">Role</div>
+                            <RadioGroup aria-label="Type" name="type" row>
+                                <FormControlLabel value="home" control={<Radio />} label="Admin" onChange={this.handleSelectRoleAdmin}/>
+                                <FormControlLabel value="work" control={<Radio />} label="User" onChange={this.handleSelectRoleUser}/>
+                            </RadioGroup>
+          <Link to="/UserLogin" style={{ textDecoration: 'none' }}>
           <Button
             type="submit"
             fullWidth
@@ -183,9 +267,11 @@ return formIsValid;
             color="primary"
             style={{marginTop:'10px',marginBottom:'10px'}}
             onClick={() => this.checkout()}
+            onClick={this.handleSubmitSignUpForm}
           >
             Sign Up
           </Button>
+          </Link>
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/UserLogin" style={{ textDecoration: 'none' }}>

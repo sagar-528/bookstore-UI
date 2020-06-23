@@ -47,7 +47,7 @@ setSearch(searchbook){
     render() {
         return (
             <div>
-                <Headerbar function={this.setSearch} data={this.state.books}/>
+                <Headerbar function={this.setSearch} />
                 <div style={{ width: '74%', margin: 'auto' }}>
                 <Lowerbar data={this.state.books.length} function={this.setbooks}/>
                 <Gridview data={this.state.books} />
