@@ -15,6 +15,7 @@ constructor(props) {
         books: []
     }
     this.setbooks = this.setbooks.bind(this);
+    this.setSearch = this.setSearch.bind(this);
 }
 
 componentDidMount() {
@@ -35,10 +36,18 @@ setbooks(newbooks) {
     console.log('bind',this.state.books)
 }
 
+setSearch(searchbook){
+    console.log('dashboard',searchbook);
+    console.log('hi',this);
+    this.setState({
+        books: searchbook
+    })
+    console.log('bind',this.state.books)
+}
     render() {
         return (
             <div>
-                <Headerbar function={this.setbooks} />
+                <Headerbar function={this.setSearch} data={this.state.books}/>
                 <div style={{ width: '74%', margin: 'auto' }}>
                 <Lowerbar data={this.state.books.length} function={this.setbooks}/>
                 <Gridview data={this.state.books} />

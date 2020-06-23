@@ -10,6 +10,7 @@ import Badge from '@material-ui/core/Badge';
 import { Link } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
 import PersonIcon from '@material-ui/icons/Person';
+import Lowerbar from '../Lowerbar/Lowerbar';
 
 var data = new HTTPServices()
 export class Headerbar extends Component {
@@ -29,11 +30,16 @@ export class Headerbar extends Component {
      })
      if (this.state.searchText !== '') {
          data.fetchAllSearchBook(this.state.searchText, response => {
-             console.log(this.state.searchText)
+             console.log("text1",this.state.searchText)
              this.props.function(
                   response
              )
          })
+     }
+     if(this.state.searchText === ''){
+      data.fetchAllSearchBook(this.state.searchText, response => {
+        window.location.reload(true)
+      })
      }
  }
   

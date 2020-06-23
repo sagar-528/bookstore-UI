@@ -21,7 +21,7 @@ class Gridview extends Component {
 render() {
     return (
         <MuiThemeProvider theme={useStyles}>
-        <div className={useStyles.root} style={{display:'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
+        <div className={useStyles.root} style={{display:'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}} >
         {this.props.data.map(o => (
                         <Bookview data={o}/>
                     ))}

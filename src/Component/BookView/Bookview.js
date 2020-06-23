@@ -39,7 +39,7 @@ handleClickAddToWishList = (e) => {
 
     render() {
         return (  
-                <div onMouseEnter= {() => this.handleOnHoverCard()} onMouseLeave={() => this.handleOnHoverCard()}>
+                <div onMouseEnter= {this.handleOnHoverCard} onMouseLeave={this.handleOnHoverCard}>
                     <Card className="card"  id="info" variant="outlined">
                     <CardActionArea>
                         <div className="divName">
