@@ -259,11 +259,12 @@ return formIsValid;
              <div style={{ color:'red',marginBottom:'12px' }}>{ this.state.errors.password }</div>
             </Grid>
           </Grid>
-          <div className="typeRadio">Role</div>
-                            <RadioGroup aria-label="Type" name="type" row>
-                                <FormControlLabel value="home" control={<Radio />} label="admin" onChange={this.handleSelectRoleAdmin}/>
-                                <FormControlLabel value="work" control={<Radio />} label="user" onChange={this.handleSelectRoleUser}/>
-                            </RadioGroup>
+                    <span>
+                        <input type="checkbox" id="type" value="Admin" onChange={this.handleSelectAdmin}/>
+                        <label for="type"  style={{ padding: "10px"}}> Admin</label>
+                        <input type="checkbox" id="type" value="User"  onChange={this.handleSelectUser} />
+                        <label for="type"  style={{ padding: "10px"}} > User</label>
+                    </span>
           <Link to="/UserLogin" style={{ textDecoration: 'none' }}>
           <Button
             type="submit"

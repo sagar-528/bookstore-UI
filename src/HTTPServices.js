@@ -98,18 +98,18 @@ class HTTPServices{
         .then(res => console.log(res))
     }
 
-    signInData(username, password) {
+    signInData(username, password){
         fetch("http://localhost:8080/api/auth/signin", {
-        method: 'POST',
-        headers: {
-            "content-type": "Application/json"
-        },
-        body: JSON.stringify({
-            "username": username,
-            "password": password
-        })})
-        .then(res => res.json())
-        .then(res => localStorage.setItem("token", res.accessToken))
+            method: 'POST',
+            headers: {
+                "content-type": "Application/json"
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password
+              })})
+            .then(res => res.json())
+            .then(res => localStorage.setItem("token", res.accessToken))
     }
 
 }

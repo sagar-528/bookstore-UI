@@ -12,45 +12,39 @@ import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
+import HTTPServices from '../../HTTPServices';
 
-
-export class UserLogin extends Component {
+var data = new HTTPServices();
+class UserLogin extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-            email: '',
+            username: '',
             password: ''
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    handleClick = () => {
-        this.props.history.push('/ResetPassword')
-      }
-    
-    handleSignUpPage = () => {
-        this.props.history.push('/SignUpForm')
-      }
-    
-    handleForgotPasswordPage = () => {
-        this.props.history.push('/ForgotPassword')
-      }
-    
-    handleChange(e) {
-        let target = e.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
-        let name = target.name;
-    
-        this.setState({
-          [name]: value
-        });
-      }
-    
-      handleSubmit(e) {
-        e.preventDefault();
-      }
+    handleChangeUsername = async(e) => {
+        await this.setState({
+            username: e.target.value
+        })
+        console.log(this.state.username);
+    }
+
+    handleChangePassword = async(e) => {
+       await this.setState({
+            password: e.target.value
+        })
+        console.log(this.state.password);
+        
+    }
+
+    handleChangeLogin = () => {
+        data.signInData(this.state.username, this.state.password)
+        console.log(localStorage.getItem("token"))
+        console.log(data);
+    }
 
     render() {
         return (
@@ -72,11 +66,11 @@ export class UserLogin extends Component {
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                    label="User Name"
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
-                                    value={this.state.email} onChange={this.handleChange}
+                                    onChange={(e) => this.handleChangeUsername(e)}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -88,7 +82,7 @@ export class UserLogin extends Component {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
-                                    value={this.state.password} onChange={this.handleChange}
+                                    onChange={(e) => this.handleChangePassword(e)}
                                 />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
@@ -101,6 +95,7 @@ export class UserLogin extends Component {
                                 variant="contained"
                                 color="primary"
                                 style={{marginBottom:'10px'}}
+                                onClick={this.handleChangeLogin}
                             >
                                 Sign In
                             </Button>
