@@ -14,7 +14,7 @@ export class Bookview extends Component {
         super(props)
     
         this.state = {
-             cardHover: false
+             cardHover: true
         }
         this.handleOnHoverCard = this.handleOnHoverCard.bind(this)
     }
@@ -29,7 +29,7 @@ export class Bookview extends Component {
     }
 
     handleClickAddToCart = (e) => {
-        book.addToCart(101, e, 1)
+        book.addToCart(e, 1)
         console.log("sagar", e);
     }
 

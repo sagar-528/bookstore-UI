@@ -6,13 +6,14 @@ class HTTPServices{
         .then(values => callback(values))
      }
 
-     addToCart(userId, bookId, quantity) {
+     addToCart( bookId, quantity) {
         fetch("http://localhost:8080/home/user/cart/add-update", {
         method: 'PUT',
         headers: {
-            "content-type": "Application/json"
+            "content-type": "Application/json",
+            "token": localStorage.getItem("token")
         },
-        body: JSON.stringify({"bookId": bookId, "bookQuantity": quantity, "userId": userId})})
+        body: JSON.stringify({"bookId": bookId, "bookQuantity": quantity})})
         .then(res => res.text())
         .then(res => console.log(res))
     }
@@ -21,7 +22,8 @@ class HTTPServices{
         fetch("http://localhost:8080/home/user/wishlist/add", {
         method: 'PUT',
         headers: {
-            "content-type": "Application/json"
+            "content-type": "Application/json",
+            "token": localStorage.getItem("token")
         },
         body: JSON.stringify({"bookId": bookId, "userId": userId})})
         .then(res => res.text())
@@ -29,13 +31,22 @@ class HTTPServices{
     }
 
     fetchAllCartBook(callback) {
-        fetch("http://localhost:8080/home/user/cart/getall/101")
+        fetch("http://localhost:8080/home/user/cart/getall", {
+            method: 'GET',
+            headers: {
+                "content-type": "Application/json",
+                "token": localStorage.getItem("token")
+            }})
         .then(res => res.json())
         .then(values => callback(values))
     }
 
     fetchAllWishlistBooks(callback) {
-        fetch("http://localhost:8080/home/user/wishlist/getall/101")
+        fetch("http://localhost:8080/home/user/wishlist/getall", {
+            method: 'GET',
+            headers: {
+                "token": localStorage.getItem("token")
+            }})
         .then(res => res.json())
         .then(values => callback(values))
     }
@@ -44,20 +55,22 @@ class HTTPServices{
         fetch("http://localhost:8080/home/user/wishlist/remove", {
         method: 'PUT',
         headers: {
-            "content-type": "Application/json"
+            "content-type": "Application/json",
+            "token": localStorage.getItem("token")
         },
         body: JSON.stringify({"bookId": bookId, "userId": userId})})
         .then(res => res.text())
         .then(res => console.log(res))
     }
 
-    removeBookFromCart(userId, bookId, quantity){
+    removeBookFromCart( bookId, quantity){
         fetch("http://localhost:8080/home/user/cart/remove", {
             method: 'PUT',
             headers: {
-                "content-type": "Application/json"
+                "content-type": "Application/json",
+                "token": localStorage.getItem("token")
             },
-            body: JSON.stringify({"bookId": bookId, "bookQuantity": quantity, "userId": userId})})
+            body: JSON.stringify({"bookId": bookId, "bookQuantity": quantity})})
             .then(res => res.text())
             .then(res => console.log(res))
     }

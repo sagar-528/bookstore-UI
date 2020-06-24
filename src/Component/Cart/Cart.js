@@ -49,7 +49,7 @@ export class Cart extends Component {
     handleChangeBookDec(e) {
         let q = e.bookQuantity - 1;
         console.log("value of q ", q)
-        data.addToCart(101, e.id, q)
+        data.addToCart( e.id, q)
         window.location.reload(true)
         data.fetchAllCartBook(response => {
             console.log(response)
@@ -63,7 +63,7 @@ export class Cart extends Component {
     handleChangeBookInc(e) {
         let q = e.bookQuantity + 1;
         console.log("value of q ", q)
-        data.addToCart(101, e.id, q)
+        data.addToCart( e.id, q)
         window.location.reload(true)
         data.fetchAllCartBook(response => {
             console.log(response)
@@ -76,7 +76,7 @@ export class Cart extends Component {
 
 
     handleRemoveBookFromOrder = (e) =>{
-        data.removeBookFromCart(101,e,1)
+        data.removeBookFromCart(e,1)
         console.log(e);
         window.location.reload(false);
     }

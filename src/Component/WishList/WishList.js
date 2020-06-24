@@ -35,7 +35,7 @@ export class WishList extends Component {
         }
     
         handleBookToCart = (e) =>{
-            data.addToCart(101, e, 1)
+            data.addToCart( e, 1)
             console.log("sagar", e);
             data.removeBookFromWishList(101, e)
             window.location.reload(false);
