@@ -11,11 +11,11 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 
-export class ForgotPassword extends Component {
+export class RestPassword extends Component {
     render() {
         return (
             <div>
-                <div>
+                 <div>
                     <Container maxWidth="xs" style={{ marginTop:'50px', marginBottom:'110px' }}>
                         <CssBaseline />
                             <div >
@@ -23,7 +23,7 @@ export class ForgotPassword extends Component {
                                 <AccountCircleIcon />
                             </Avatar>
                              <Typography component="h1" variant="h5" style={{marginLeft:'110px', marginBottom:"10px"}}>
-                                 Forgot Password
+                                 Reset Password
                             </Typography>
                             <form noValidate>
                                 <TextField
@@ -31,17 +31,22 @@ export class ForgotPassword extends Component {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
+                                    label="New Password"
+                                    autoFocus
+                                />
+                                 <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    label="Confirm Password"
                                     autoFocus
                                 />
                                  <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <Link to="/ResetPassword" style={{ marginTop:'20px', textDecoration: 'none' }}>
+                            <Link to="/UserLogin" style={{ marginTop:'20px', textDecoration: 'none' }}>
                             <Button
                                 type="submit"
                                 fullWidth
@@ -52,13 +57,6 @@ export class ForgotPassword extends Component {
                                 Confirm
                             </Button>
                             </Link>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link to="/SignUp" style={{ marginTop:'20px', textDecoration: 'none' }}>
-                                         Instead of forget password? Sign Up
-                                    </Link>
-                                </Grid>
-                                </Grid>
                             </form>
                         </div>
                     </Container>
@@ -70,4 +68,4 @@ export class ForgotPassword extends Component {
     }
 }
 
-export default ForgotPassword
+export default RestPassword

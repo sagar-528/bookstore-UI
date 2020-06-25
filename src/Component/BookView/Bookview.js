@@ -69,7 +69,7 @@ handleClickAddToWishList = (e) => {
                             <Typography color="textPrimary" style={{ fontFamily: 'Arial', fontSize: 16, fontWeight: 600 }} gutterBottom>
                                 Book Detail
                             </Typography>
-                            <Typography color="textSecondary" style={{ fontSize: 12, textAlign: 'initial' }} gutterBottom>
+                            <Typography color="textSecondary" style={{ fontSize: 10, textAlign: 'initial'}} gutterBottom>
                                 {this.props.data.description}
                             </Typography>
                         </CardContent>

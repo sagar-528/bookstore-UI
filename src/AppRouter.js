@@ -8,6 +8,7 @@ import UserLogin from './Component/UserLogin/UserLogin'
 import SignUp from './Component/SignUp/SignUp'
 import Headerbar from './Component/Header/Headerbar'
 import ForgotPassword from './Component/ForgotPassword/ForgotPassword'
+import RestPassword from './Component/ResetPassword/RestPassword'
 
 
 class AppRouter extends Component {
@@ -24,6 +25,7 @@ class AppRouter extends Component {
                         <Route path="/SignUp" component={SignUp} />
                         <Route path="/header" component={Headerbar} />
                         <Route path="/ForgotPassword" component={ForgotPassword} />
+                        <Route path="/ResetPassword" component={RestPassword} />
                     </Switch>      
                 </div>
             </BrowserRouter>
