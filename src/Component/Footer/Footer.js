@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,15 +17,13 @@ const useStyles = makeStyles(theme => ({
     },
     
     footer: {
-        backgroundColor: "#4e342e",
+        backgroundColor: "#4e342e"
     },
 }));
-
-export default function Footer() {
+function Footer() {
     const classes = useStyles();
-
     return (
-        <div className={classes.root}>
+       <div className={classes.root}>
             <AppBar position="static" className={classes.footer}>
                 <Toolbar>
                     <Typography variant="h8" className={classes.title}>
@@ -34,5 +32,7 @@ export default function Footer() {
                 </Toolbar>
             </AppBar>
         </div>
-    );
+    )
 }
+
+export default Footer

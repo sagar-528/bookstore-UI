@@ -11,11 +11,13 @@ import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import HTTTPServices from '../../HTTPServices'
 import { Link } from 'react-router-dom';
-   
+import HTTTPServices from '../../HTTPServices';
+
+
 var data = new HTTTPServices();
 export class Cart extends Component {
+
     constructor(props) {
         super(props)
     
@@ -35,6 +37,50 @@ export class Cart extends Component {
         this.checkout = this.checkout.bind(this);
     }
 
+    componentDidMount() {
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
+    }
+
+    handleChangeBookDec(e) {
+        let q = e.bookQuantity - 1;
+        console.log("value of q ", q)
+        data.addToCart( e.id, q)
+        window.location.reload(true)
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
+        window.location.reload(true)
+    }
+
+    handleChangeBookInc(e) {
+        let q = e.bookQuantity + 1;
+        console.log("value of q ", q)
+        data.addToCart( e.id, q)
+        window.location.reload(true)
+        data.fetchAllCartBook(response => {
+            console.log(response)
+            this.setState({
+                booklist: response
+            })
+        })
+        window.location.reload(true)
+    }
+
+
+    handleRemoveBookFromOrder = (e) =>{
+        data.removeBookFromCart(e,1)
+        console.log(e);
+        window.location.reload(false);
+    }
+    
     setEditable() {
         this.setState({
             disabled: false,
@@ -53,21 +99,6 @@ export class Cart extends Component {
     
     }
     
-    componentDidMount() {
-        data.fetchAllCartBook(response => {
-            console.log(response)
-            this.setState({
-                booklist: response
-            })
-        })
-    }
-
-    handleRemoveBookFromOrder = (e) =>{
-        data.removeBookFromCart(101,e,1)
-        console.log(e);
-        window.location.reload(false);
-    }   
-
     changeEvent() {
         this.setState({
             customerDetails: !this.state.customerDetails,
@@ -101,18 +132,6 @@ export class Cart extends Component {
                 if (!fields["name"].match(/^[a-zA-Z]{3,}$/)) {
                     formIsValid = false;
                     errors["name"] = "*Please enter alphabet only.";
-                }
-            }
-    
-            if (!fields["mobile"]) {
-                formIsValid = false;
-                errors["mobile"] = "*Please enter your mobile no.";
-            }
-    
-            if (typeof fields["mobile"] !== "undefined") {
-                if (!fields["mobile"].match(/^[0-9]{10}$/)) {
-                    formIsValid = false;
-                    errors["mobile"] = "*Please enter valid mobile no.";
                 }
             }
     
@@ -181,15 +200,9 @@ export class Cart extends Component {
             });
             return formIsValid;
         }
-
-    handleClickAddToCart = (e) => {
-        data.addToCart(101, e, 1)
-        console.log("sagar", e);
-    }
-    
     render() {
         return (
-        <div>
+            <div>
             <Headerbar />
                 <div>
                 <div className="mainCart">
@@ -198,17 +211,17 @@ export class Cart extends Component {
                         <div className="box">
                             {this.state.booklist.map(book => (
                             <div className="cart">
-                                <div key={book.id}>
+                                <div>
                                     <img className="bookImages" src={book.picPath}/>
                                 </div>
                                     <div style={{ marginLeft: '5%' }}>
                                             <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>{book.author}</Typography>
+                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
                                             <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
                                         <div>
-                                            <RemoveCircleOutlineIcon onClick={() => this.handleRemoveBookFromOrder(book.id)}/>
-                                            <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} placeholder="1"/>
-                                            <AddCircleOutlineIcon onClick={() => this.handleClickAddToCart(book.id)}/>
+                                            <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
+                                            <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} readOnly value={book.bookQuantity}/>
+                                            <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
                                             <Button style={{ marginLeft: '80px' }} onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
                                         </div>
                                     </div>
@@ -226,18 +239,14 @@ export class Cart extends Component {
                 <div>
                 <Card className="customerCard" style={this.state.customerDetails ? { minHeight: '630px' } : { height: '60px' }}>
                     <div className="CustomerPage">
-                        <Typography className="customerDetails" style={{ fontSize: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>Customer Details</Typography>
-                        <Button onClick={() => this.setEditable()}nstyle={{ fontSize: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }} style={this.state.editbutton ? { display: 'block' } : { display: 'none' }}>Edit</Button>
+                        <Typography className="customerDetails">Customer Details</Typography>
+                        <Button onClick={() => this.setEditable()} style={{ fontSize: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }} style={this.state.editbutton ? { display: 'block' } : { display: 'none' }}>Edit</Button>
                     </div>
 
-                    <div className="textFieldRow">
+                    <div style={{marginLeft:'30px'}}>
                         <div>
                             <TextField name="name" label="Name" variant="outlined" value={this.state.fields.name} onChange={this.handleChange} style={{ outlineColor: 'coral' }} />
                             <div className="errorMsg">{this.state.errors.name}</div>
-                        </div>
-                        <div>
-                            <TextField name="mobile" label="Phone Number" variant="outlined" value={this.state.fields.mobile} onChange={this.handleChange} />
-                            <div className="errorMsg">{this.state.errors.mobile}</div>
                         </div>
                     </div><br></br>
 
@@ -288,8 +297,8 @@ export class Cart extends Component {
                     </div>
                 </Card>
             </div>
-            <div className="mainCart">
-                <Card className="userCard" style={this.state.orderSummery ? { height: '300px' } : { height: '60px' }}>
+            <div className="OrderCart">
+                <Card className="lastCard" style={this.state.orderSummery ? { height: '300px' } : { height: '60px' }}>
                     <div className="myCart">Order summery</div>
                         <div className="box">
                             {this.state.booklist.map(book => (
@@ -299,8 +308,9 @@ export class Cart extends Component {
                                 </div>
                                     <div style={{ marginLeft: '5%' }}>
                                             <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>{book.author}</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
+                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
+                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price * book.bookQuantity}</Typography>
+                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Qty. {book.bookQuantity}</Typography>
                                         <div>
                                     </div>
                                 </div>

@@ -8,12 +8,12 @@ import TableRow from '@material-ui/core/TableRow';
 import "./ConfirmOrder.css"
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import orderImage from '../../Image/confirm.jpg';
+import orderImage from '../../Assets/confirm.jpg';
 import Headerbar from '../Header/Headerbar';
 import Footer from '../Footer/Footer';
 import { Link } from 'react-router-dom';
 
-class ConfirmOrder extends Component {
+export class ConfirmOrder extends Component {
     render() {
         return (
             <div>

@@ -11,41 +11,41 @@ import './WishList.css'
 var data = new HTTTPServices();
 export class WishList extends Component {
 
-constructor(props) {
-    super(props)
-
-    this.state = {
-         wishlistBooks: []
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             wishlistBooks: []
+        }
     }
-}
-
-     componentDidMount() {
-        data.fetchAllWishlistBooks(response => {
-            console.log(response)
-            this.setState({
-                wishlistBooks: response
+    
+         componentDidMount() {
+            data.fetchAllWishlistBooks(response => {
+                console.log(response)
+                this.setState({
+                    wishlistBooks: response
+                })
             })
-        })
-    }
-
-    handleRemovebooks = (e) =>{
-        data.removeBookFromWishList(101, e)
-        console.log("sagar", e);
-        window.location.reload(false);
-    }
-
-    handleBookToCart = (e) =>{
-        data.addToCart(101, e, 1)
-        console.log("sagar", e);
-        data.removeBookFromWishList(101, e)
-        window.location.reload(false);
-    }
-
-render() {
+        }
+    
+        handleRemovebooks = (e) =>{
+            data.removeBookFromWishList(101, e)
+            console.log("sagar", e);
+            window.location.reload(false);
+        }
+    
+        handleBookToCart = (e) =>{
+            data.addToCart( e, 1)
+            console.log("sagar", e);
+            data.removeBookFromWishList(101, e)
+            window.location.reload(false);
+        }
+    
+    render() {
         return (
             <div>
                 <Headerbar />
-                <div className="mainCart">
+                <div className="wishCart">
                 <Card className="Card">
                     <div className="myCart">My WishList ({this.state.wishlistBooks.length}) </div>
                         <div className="box">
@@ -68,6 +68,7 @@ render() {
                         </div>
                 </Card>
             </div>
+            <Footer />
         </div>
         )
     }
