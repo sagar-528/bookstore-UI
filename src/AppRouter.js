@@ -25,7 +25,7 @@ class AppRouter extends Component {
                         <Route path="/SignUp" component={SignUp} />
                         <Route path="/header" component={Headerbar} />
                         <Route path="/ForgotPassword" component={ForgotPassword} />
-                        <Route path="/ResetPassword" component={RestPassword} />
+                        <Route path="/ResetPassword/*" component={RestPassword} />
                     </Switch>      
                 </div>
             </BrowserRouter>

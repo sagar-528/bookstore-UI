@@ -10,8 +10,32 @@ import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
+import HTTPServices from '../../HTTPServices';
 
+var data = new HTTPServices();
 export class ForgotPassword extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            emailId: ''
+        }
+    }
+    
+
+    handleEmailAddress = async(e) => {
+        await this.setState({
+          emailId : e.target.value
+        })
+        console.log(this.state.emailId);
+      }
+
+      handleForgotPassword = () => {
+        data.forgotPasswordMail(this.state.emailId)
+        console.log(this.state.emailId);
+      }
+      
+
     render() {
         return (
             <div>
@@ -36,18 +60,20 @@ export class ForgotPassword extends Component {
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
+                                    onChange={(e) => this. handleEmailAddress(e)}
                                 />
                                  <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <Link to="/ResetPassword" style={{ marginTop:'20px', textDecoration: 'none' }}>
+                            <Link to="/ResetPassword/*" style={{ marginTop:'20px', textDecoration: 'none' }}>
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 style={{marginBottom:'10px'}}
+                                onClick={this.handleForgotPassword}
                             >
                                 Confirm
                             </Button>

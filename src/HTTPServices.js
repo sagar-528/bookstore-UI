@@ -125,6 +125,16 @@ class HTTPServices{
             .then(res => localStorage.setItem("token", res.accessToken))
     }
 
+    forgotPasswordMail(email) {
+        fetch("http://localhost:8080/api/auth/forgotpassword", {
+            method: 'POST',
+            body: (email)
+        })
+            .then(res => res.text()
+                .then(res => console.log("message", res)
+                ))
+    }
+
 }
 
 export default HTTPServices;
