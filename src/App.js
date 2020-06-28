@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import './App.css';
 import AppRouter from './AppRouter';
+// import { createStore } from 'redux';
+// import {Provider} from 'react-redux';
 
 
-function App() {
-  return (
+export default class App extends Component {
+  render() {
+    return (
       <div>
-        <AppRouter />
+          <AppRouter />
       </div>
-    );
+    )
+  }
 }
-
-export default App;

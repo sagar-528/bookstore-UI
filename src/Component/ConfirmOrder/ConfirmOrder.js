@@ -12,8 +12,27 @@ import orderImage from '../../Assets/confirm.jpg';
 import Headerbar from '../Header/Headerbar';
 import Footer from '../Footer/Footer';
 import { Link } from 'react-router-dom';
+import HTTPServices from '../../HTTPServices';
 
+var data = new HTTPServices();
 export class ConfirmOrder extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            orderId: ''
+        }
+    }
+    
+    componentDidMount() {
+        data.OrderId(response => {
+            console.log("id: ", response)
+            this.setState({
+                orderId: response
+            })
+        })
+    }
+
     render() {
         return (
             <div>
@@ -24,7 +43,7 @@ export class ConfirmOrder extends Component {
                     </div>
                     <div className="orderMessage">
                         <p className="messageParagraph"> hurray!!!your order is confirmed</p>
-                        <p className="messageParagraph">the order id is #213425 save the order id</p>
+                        <p className="messageParagraph">the order id is #{this.state.orderId} save the order id</p>
                         <p className="messageParagraph">for further communication..</p>
                     </div>
 

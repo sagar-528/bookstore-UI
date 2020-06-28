@@ -20,20 +20,26 @@ export class Bookview extends Component {
     }
 
     handleOnHoverCard = (e) => {
-        console.log("entering");
+        console.log("onHover Description");
         this.setState({
             cardHover: !this.state.cardHover
         })        
     }
 
-    handleClickAddToCart = (e) => {
-        book.addToCart(e, 1)
-        console.log("sagar", e);
+    handleClickAddToCart = async(e) => {
+       await book.addToCart(e, 1)
+        console.log("Add Book To Cart", e);
+        await book.getAllCartBook(response => {
+            this.props.dispatch({ type: "methodCalled", payload: response.length })
+        })
     }
 
 handleClickAddToWishList = (e) => {
             book.addToWishList(101,e)
-            console.log("sagar", e);
+            console.log("Add Book To WishList", e);
+            await book.getAllWishlistBook(response => {
+                this.props.dispatch({ type: "wishListUpdate", payload: response.length })
+            })
         }
 
     render() {

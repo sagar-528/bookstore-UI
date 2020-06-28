@@ -19,12 +19,15 @@ export class WishList extends Component {
         }
     }
     
-         componentDidMount() {
+        async componentDidMount() {
             data.fetchAllWishlistBooks(response => {
                 console.log(response)
                 this.setState({
                     wishlistBooks: response
                 })
+            })
+            await data.getAllWishlistBook(response => {
+                this.props.dispatch({ type: "wishListUpdate", payload: response.length })
             })
         }
     

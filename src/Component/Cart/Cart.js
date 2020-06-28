@@ -29,7 +29,18 @@ export class Cart extends Component {
              editbutton: false,
              continue: true,
              fields: {},
-             errors: {}
+             errors: {},
+             name: '',
+             pincode: '',
+             locality: '',
+             address: '',
+             city: '',
+             landmark: '',
+             addressType: '',
+             home: false,
+             work: false,
+             other: false,
+             orderId: ''
         }
         this.changeEvent = this.changeEvent.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -91,12 +102,37 @@ export class Cart extends Component {
     }
 
     handleChange(e) {
-        let fields = this.state.fields;
+        let fields =  this.state.fields;
         fields[e.target.name] = e.target.value;
         this.setState({
             fields
         });
     
+    }
+
+    handleChangeEnableCustomerDetails = async() => {
+        await data.isCustomerDetailsExisted(response => {
+            console.log("result : ", response)
+            if (response == 'true') {
+             this.setState({
+                placeOrder:true,
+                customerDetails:false,
+                orderSummery:true
+            })
+            console.log("toggle : ", );
+            console.log("summarytoggle : ", );
+        }else {
+            this.setState({
+                placeOrder:false,
+                customerDetails:true,
+                orderSummery:false
+            })
+            console.log("toggle123 : ", this.state.toggle);
+            console.log("summarytoggle : ", this.state.summaryToggle);
+        }
+        })
+
+       await this.changeEvent()
     }
     
     changeEvent() {
@@ -104,6 +140,10 @@ export class Cart extends Component {
             customerDetails: !this.state.customerDetails,
             placeOrder: !this.state.placeOrder,
         })
+        console.log(this.state.customerDetails,"toggle");
+        console.log(this.state.placeOrder,'after');
+        
+        
     }
 
     checkout() {
@@ -116,6 +156,7 @@ export class Cart extends Component {
                     editbutton: !this.state.editbutton
                 })
             }
+         this.handleChangeEnableOrderSummary();
         }
 
         validateForm() {
@@ -200,6 +241,119 @@ export class Cart extends Component {
             });
             return formIsValid;
         }
+
+        handleChangePlaceOrder() {
+            data.placeOrder(response => {
+                console.log("order id : ", response)
+                // this.setState({
+                //     orderId: response
+                // })
+            })
+        }
+
+        handleChangeEnableOrderSummary = async () => {
+
+            if (this.state.home) {
+                await this.setState({
+                    addressType: 'home'
+                })
+            }
+            if (this.state.work) {
+                await this.setState({
+                    addressType: 'work'
+                })
+            }
+            if (this.state.other) {
+                await this.setState({
+                    addressType: 'other'
+                })
+            }
+    
+            console.log("type", this.state.addressType);
+    
+            await data.addCustomerDetails(this.state.name, this.state.pincode, this.state.locality, this.state.address, this.state.city, this.state.landmark, this.state.addressType)
+            await this.setState({
+                summaryToggle: true,
+                toggle: false
+            })
+        }
+    
+        handleSetName = async(e) => {
+            this.setState({
+                name: e.target.value
+            })
+            console.log(this.state.name);
+            await this.handleChange(e);
+        }
+    
+        handleSetPincode = async(e) => {
+            this.setState({
+                pincode: e.target.value
+            })
+            console.log(this.state.pincode);
+            await this.handleChange(e)
+        }
+    
+        handleSetLocality = async (e) => {
+            this.setState({
+                locality: e.target.value
+            })
+            console.log(this.state.locality);
+            await this.handleChange(e)
+        }
+    
+        handleSetAddress = async(e) => {
+            this.setState({
+                address: e.target.value
+            })
+            console.log(this.state.address);
+            await this.handleChange(e)
+        }
+    
+        handleSetCity = async(e) => {
+            this.setState({
+                city: e.target.value
+            })
+            console.log(this.state.city);
+            await this.handleChange(e)
+        }
+    
+        handleSetLandmark = async (e) => {
+             this.setState({
+                landmark: e.target.value,
+            })
+            console.log(this.state.landmark);
+            await this.handleChange(e)
+        }
+    
+        handleSelectHome = async () => {
+            await this.setState({
+                work: false,
+                home: true,
+                other: false
+            })
+            console.log("home",this.state.home);
+            
+        }
+    
+        handleSelectWork = async () => {
+            await this.setState({
+                work: true,
+                home: false,
+                other: false
+            })
+            console.log("work", this.state.work);
+        }
+    
+        handleSelectOther = async () => {
+            await this.setState({
+                work: false,
+                home: false,
+                other: true
+            })
+            console.log("other", this.state.other);
+        }
+
     render() {
         return (
             <div>
@@ -228,7 +382,7 @@ export class Cart extends Component {
                                 </div>
                             ))}
                             <div className="chekoutButton">
-                                <Button variant="contained" color="primary" onClick={() => this.changeEvent()} style={this.state.placeOrder ? { display: 'block' } : { display: 'none' }}>
+                                <Button variant="contained" color="primary" onClick={this.handleChangeEnableCustomerDetails} style={this.state.placeOrder ? { display: 'block' } : { display: 'none' }}>
                                             Place order
                                 </Button>
                             </div>
@@ -245,18 +399,18 @@ export class Cart extends Component {
 
                     <div style={{marginLeft:'30px'}}>
                         <div>
-                            <TextField name="name" label="Name" variant="outlined" value={this.state.fields.name} onChange={this.handleChange} style={{ outlineColor: 'coral' }} />
+                            <TextField name="name" label="Name" variant="outlined" value={this.state.fields.name}  style={{ outlineColor: 'coral' }} onChange={(e) => this.handleSetName(e)}/>
                             <div className="errorMsg">{this.state.errors.name}</div>
                         </div>
                     </div><br></br>
 
                     <div className="textFieldRow">
                         <div>
-                            <TextField label="Pincode" variant="outlined" name="pincode" value={this.state.fields.pincode} onChange={this.handleChange} />
+                            <TextField label="Pincode" variant="outlined" name="pincode" value={this.state.fields.pincode}  onChange={(e) => this.handleSetPincode(e)} />
                             <div className="errorMsg">{this.state.errors.pincode}</div>
                         </div>
                         <div>
-                            <TextField label="Locality" variant="outlined" name="locality" value={this.state.fields.locality} onChange={this.handleChange} />
+                            <TextField label="Locality" variant="outlined" name="locality" value={this.state.fields.locality} onChange={(e) => this.handleSetLocality(e)}/>
                             <div className="errorMsg">{this.state.errors.locality}</div>
                         </div>
                     </div><br></br>
@@ -264,18 +418,18 @@ export class Cart extends Component {
                     <div className="textFieldAddress">
                         <div>
                         <TextField  label="Address" multiline rows="4" name="address" value={this.state.fields.address} 
-                        onChange={this.handleChange} variant="outlined" style={{ width: '472px' }} InputProps={{ disableUnderline: true }} />
+                        variant="outlined" style={{ width: '472px' }} InputProps={{ disableUnderline: true }} onChange={(e) => this.handleSetAddress(e)}/>
                         <div className="errorMsg">{this.state.errors.address}</div>
                     </div>
                     </div><br></br>
 
                     <div className="textFieldRow">
                         <div>
-                            <TextField label="City" name="city" variant="outlined" value={this.state.fields.city} onChange={this.handleChange} />
+                            <TextField label="City" name="city" variant="outlined" value={this.state.fields.city}  onChange={(e) => this.handleSetCity(e)}/>
                             <div className="errorMsg">{this.state.errors.city}</div>
                         </div>
                         <div>
-                            <TextField label="Landmark" variant="outlined" name="landmark" value={this.state.fields.landmark} onChange={this.handleChange} />
+                            <TextField label="Landmark" variant="outlined" name="landmark" value={this.state.fields.landmark}  onChange={(e) => this.handleSetLandmark(e)} />
                             <div className="errorMsg">{this.state.errors.landmark}</div>
                         </div>
                     </div><br></br>
@@ -284,13 +438,13 @@ export class Cart extends Component {
                         <div >
                             <div className="typeRadio">Type</div>
                             <RadioGroup aria-label="Type" name="type" row>
-                                <FormControlLabel value="home" control={<Radio />} label="home" />
-                                <FormControlLabel value="work" control={<Radio />} label="work" />
-                                <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                <FormControlLabel value="home" control={<Radio />} label="home"  onChange={this.handleSelectHome}/>
+                                <FormControlLabel value="work" control={<Radio />} label="work" onChange={this.handleSelectWork}/>
+                                <FormControlLabel value="other" control={<Radio />} label="Other" onChange={this.handleSelectOther}/>
                             </RadioGroup>
                         </div>
                         <div className="placeHolder">
-                            <Button variant="contained" color="primary" onClick={() => this.checkout()} style={this.state.continue ? { display: 'block' } : { display: 'none' }}>
+                            <Button variant="contained" color="primary" style={this.state.continue ? { display: 'block' } : { display: 'none' }} onClick={this.checkout}>
                                 CONTINUE
                             </Button>
                         </div>
@@ -318,7 +472,7 @@ export class Cart extends Component {
                             ))}
                             <div className="chekoutButton">
                             <Link to="/ConfirmOrder" style={{ textDecoration: 'none', color: 'white' }} >
-                                <Button variant="contained" color="primary">
+                                <Button variant="contained" color="primary" onClick={this.handleChangePlaceOrder}>
                                     CHECKOUT
                                 </Button>
                             </Link>

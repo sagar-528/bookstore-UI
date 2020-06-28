@@ -135,6 +135,74 @@ class HTTPServices{
                 ))
     }
 
+    addCustomerDetails(name, pincode, locality, address, city, landmark, addressType) {
+        fetch("http://localhost:8080/home/customer/adddetails", {
+            method: 'POST',
+            headers: {
+                "content-type": "Application/json",
+                "token": localStorage.getItem("token")
+            },
+            body: JSON.stringify({
+                "name": name,
+                "pincode": pincode,
+                "locality": locality,
+                "address": address,
+                "city": city,
+                "landmark": landmark,
+                "addressType": addressType
+            })
+        })
+            .then(res => res.text())
+            .then(res => console.log(res))
+    }
+
+    OrderId(callback) {
+        fetch('http://localhost:8080/home/user/cart/orderplaced/orderid', {
+            method: 'GET',
+            headers: {
+                "token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.text())
+            .then(values => callback(values))
+    }
+
+    placeOrder(callback) {
+        fetch('http://localhost:8080/home/user/cart/orderplaced/orderid', {
+            method: 'GET',
+            headers: {
+                "token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.text())
+            .then(values => callback(values))
+    }
+
+    isCustomerDetailsExisted(callback) {
+        fetch("http://localhost:8080/home/customer/isexisted", {
+            method: 'GET',
+            headers: {
+                "token": localStorage.getItem("token")
+            }
+        })
+        .then(res => res.text())
+        .then(res => callback(res)
+        )
+    }
+
+    resetPassword(password) {
+        fetch("http://localhost:8080/api/auth/resetpassword", {
+            method: 'PUT',
+            headers: {
+                "token": localStorage.getItem("token")
+            },
+            body: (password)
+        })
+            .then(res => res.text()
+                .then(res => console.log("message", res)
+                ))
+    }
+
 }
 
 export default HTTPServices;
