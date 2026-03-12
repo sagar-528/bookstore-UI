@@ -4,111 +4,60 @@ import Footer from "../Footer/Footer";
 import Gridview from '../GridView/Gridview';
 import Pagination from '../Pagination/Pagination';
 import Lowerbar from '../Lowerbar/Lowerbar';
-import { Provider, connect } from 'react-redux';
-import { createStore } from 'redux';
 import HTTPService from '../../HTTPServices'
-import { withRouter } from 'react-router';
-import App from '../../App';
+import { connect } from 'react-redux'
 
-
-const initialState = {
-  cartCount: 0,
-  wishListCount: 0
-};
-
-function reducer(state = initialState, action) {
-  switch (action.type) {
-    case "methodCalled":
-      return {
-        cartCount: action.payload,
-        wishListCount: state.wishListCount
-      }
-    case "wishListUpdate":
-      console.log("wishupdate", action.payload)
-      return {
-        cartCount: state.cartCount,
-        wishListCount: action.payload
-      }
-    default:
-      return {
-        cartCount: state.cartCount,
-        wishListCount: state.wishListCount
-      };
-  }
-};
-
-const store = createStore(reducer);
 var book = new HTTPService();
 class DashBoard extends React.Component {
 
 constructor(props) {
     super(props)
     this.state = {
-      cartBookCount: "",
-      wishBookCount: "",
-        books: [],
-        cartCount: 0,
-        wishCount: 0
+      cartBookCount: 0,
+      wishBookCount: 0,
+      books: []
     }
     this.setbooks = this.setbooks.bind(this);
     this.setSearch = this.setSearch.bind(this);
 }
 
- async componentDidMount() {
-   await book.fetchgetAllBook(response => {
-        console.log(response)
-        this.setState({
-            books: response,
-            cartBookCount: response.length,
-        })
+componentDidMount() {
+    book.fetchgetAllBook(response => {
+        this.setState({ books: response })
     })
-    await book.getAllCartBook(response => {
-      this.props.dispatch({ type: "methodCalled", payload: response.length })
-  })
-
-     book.fetchAllWishlistBooks(response => {
-        console.log(response)
-        this.setState({
-            wishlistBooks: response.length
-        })
+    book.fetchAllCartBook(response => {
+        this.setState({ cartBookCount: response.length })
+        this.props.dispatch({ type: "methodCalled", payload: response.length })
+    })
+    book.fetchAllWishlistBooks(response => {
+        this.setState({ wishBookCount: response.length })
+        this.props.dispatch({ type: "wishListUpdate", payload: response.length })
     })
 }
 
 setbooks(newbooks) {
-    console.log('dashboard',newbooks);
-    console.log('hi',this);
-    this.setState({
-        books: newbooks
-    })
-    console.log('bind',this.state.books)
+    this.setState({ books: newbooks })
 }
 
-setSearch(searchbook){
-    console.log('dashboard',searchbook);
-    console.log('hi',this);
-    this.setState({
-        books: searchbook
-    })
-    console.log('bind',this.state.books)
+setSearch(searchbook) {
+    this.setState({ books: searchbook })
 }
+
     render() {
         return (
-            <Provider store={store} >
-            <div>
+            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Headerbar function={this.setSearch} cartBookCount={this.state.cartBookCount} wishBookCount={this.state.wishBookCount} />
-                <div style={{ width: '74%', margin: 'auto' }}>
-                <Lowerbar data={this.state.books.length} function={this.setbooks}/>
-                <Gridview data={this.state.books} />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%', marginTop: '2%' }}>
-                    <Pagination />
+                <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', padding: '0 24px', flex: 1 }}>
+                    <Lowerbar data={this.state.books.length} function={this.setbooks}/>
+                    <Gridview data={this.state.books} />
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: '24px 0 40px' }}>
+                        <Pagination />
+                    </div>
                 </div>
                 <Footer />
             </div>
-           </Provider>
         );
     }
-
 }
 
-export default DashBoard
+export default connect()(DashBoard)

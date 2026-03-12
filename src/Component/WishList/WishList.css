@@ -1,89 +1,112 @@
-.Card{
-    height: 340px;
-    width: 730px;
-    margin-left: 15%;
-     /* padding: 50px;
-     padding-top: 20px;
-     border: 1px solid red; */
+.wishlist-page {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    flex-wrap: initial;
 }
 
-.box{
-    overflow-y: scroll;
+.wishlist-content {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 24px;
+    flex: 1;
 }
 
-.box::-webkit-scrollbar {
-    display: none;
+.wishlist-section {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
 }
 
-
-.myCart{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
-    font-weight: bold;  
-    width: 660px;
-    margin: 20px 33px ;
+.wishlist-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
 }
 
-.wishCart{
+.wishlist-items {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.wishlist-item {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 50px;
-    margin-bottom: 100px;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #F0EDE8;
+    gap: 16px;
+    transition: var(--transition);
 }
 
-
-
-.cart{
-    display: flex;
-    /* padding-top: 20px; */
-     /* border: 1px solid red; */
-    width: 660px;
-    margin: auto;
-    margin-top: 10px;
-    height: 100px;
+.wishlist-item:last-child {
+    border-bottom: none;
 }
 
-.bookImages{
-    height: 90px;
+.wishlist-item:hover {
+    background: #FAFAF8;
+}
+
+.wishlist-item-image {
     width: 60px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #F8F6F3;
+    padding: 4px;
+    flex-shrink: 0;
 }
 
-.cartPrice{
-    margin-left: 30%;
-    display: flex;
-    justify-content: space-between;
-    color: rgb(27, 24, 24);
-    font-family: Arial, Helvetica, sans-serif;
+.wishlist-item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.wishlist-item-title {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
-    font-weight: bold;
-    padding-top: 4px;
-    width: 87%;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
 }
 
-.cartAuthor{
-    margin-left: 30%;
-        color: #656060;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 9px;
-        margin-top: 2px;
+.wishlist-item-author {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
 }
 
-.cartTitle {
-    margin-left: 30%;
-    color: rgb(27, 24, 24);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2px;
-    font-weight: 500;
+.wishlist-item-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
 }
 
-.orderButton{
-    display : flex;
-    flex-direction: row;
-    justify-content:  flex-end;
-    margin-left: 100%;
+.wishlist-item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.wishlist-item-actions .MuiButton-root {
+    font-family: 'Inter', sans-serif !important;
+    text-transform: none !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    padding: 6px 14px !important;
+    font-weight: 600 !important;
+}
+
+.wishlist-empty {
+    text-align: center;
+    padding: 60px 24px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-muted);
+    font-size: 15px;
 }

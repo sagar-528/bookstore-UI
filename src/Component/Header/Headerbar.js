@@ -4,91 +4,111 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import MenuBookTwoToneIcon from '@material-ui/icons/MenuBookTwoTone';
-import Icon from "@material-ui/core/Icon";
 import Badge from '@material-ui/core/Badge';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
 import { connect } from 'react-redux';
-import PersonIcon from '@material-ui/icons/Person';
-import Lowerbar from '../Lowerbar/Lowerbar';
+import './Headerbar.css';
 
-var data = new HTTPServices()
+var data = new HTTPServices();
 export class Headerbar extends Component {
-  
+
   constructor(props) {
     super(props)
-  
     this.state = {
-      book: [],
       searchText: '',
-      cartCount: '',
-      wishListCount: '',
     }
   }
 
-  handleChangeSearchText = async(e) => {
-    await this.setState({
-         searchText: e.target.value
-     })
-     if (this.state.searchText !== '') {
-         data.fetchAllSearchBook(this.state.searchText, response => {
-             console.log("text1",this.state.searchText)
-             this.props.function(
-                  response
-             )
-         })
-     }
-     if(this.state.searchText === ''){
-      data.fetchAllSearchBook(this.state.searchText, response => {
-        window.location.reload(true)
+  handleChangeSearchText = (e) => {
+    const text = e.target.value;
+    this.setState({ searchText: text })
+    if (text !== '' && this.props.function) {
+      data.fetchAllSearchBook(text, response => {
+        this.props.function(response)
       })
-     }
- }
-  
+    }
+    if (text === '' && this.props.function) {
+      data.fetchgetAllBook(response => {
+        this.props.function(response)
+      })
+    }
+  }
+
+  handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    this.forceUpdate();
+    if (this.props.history) {
+      this.props.history.push('/');
+    }
+  }
+
   render() {
+    const isLoggedIn = !!localStorage.getItem("token");
+    const isAdmin = data.isAdmin();
     return (
-      <div>
-      <AppBar position="static" style={{ backgroundColor: '#A03037', top: '0' }}>
-        <Toolbar>
-        <Typography variant="h6" noWrap> 
-         <Link to= '/' style={{ textDecoration: 'none', color: 'white', fontFamily: 'fontawesome' }}>
-            &#xf02d; Bookstore
-          </Link>
-          </Typography>
-          <div style={{display:'flex',justifyContent:'start',marginLeft:'20px',borderRadius:'4px',backgroundColor:'aliceblue',width:'40%'}}>
-            <SearchIcon style={{ color: 'grey', margin: '1%' }}/>
-            <InputBase
-              placeholder="Search…"
-              style={{ width: '100%' }}
-              onChange={(e) => this.handleChangeSearchText(e)}
-            />
-          </div>
-          <div style={{flexGrow: 1}}/>
-              <Typography variant="h6" style={{fontFamily: 'fontawesome', paddingRight: 20}}>
-                <Link to= '/WishList' style={{ textDecoration: 'none', color: 'white'}}>
-                {/* <Badge badgeContent={this.props.wishBookCount} showZero color="secondary"> */}
-                <Badge badgeContent={this.props.wishBookCount === this.props.wishListCount ? this.props.wishBookCount : this.props.wishListCount } showZero color='secondary'>
-                  WhishList &#xf004;
+      <div className="header-root">
+        <AppBar position="static" className="header-bar">
+          <Toolbar className="header-toolbar">
+            <Typography className="header-logo" variant="h6" noWrap>
+              <Link to='/'>
+                <span role="img" aria-label="book">📚</span> Bookstore
+              </Link>
+            </Typography>
+
+            <div className="header-search">
+              <SearchIcon />
+              <InputBase
+                placeholder="Search books, authors..."
+                style={{ width: '100%', marginLeft: 8 }}
+                onChange={this.handleChangeSearchText}
+                value={this.state.searchText}
+              />
+            </div>
+
+            <div style={{ flexGrow: 1 }} />
+
+            <Typography className="header-nav-item" variant="body1">
+              <Link to='/WishList'>
+                <Badge badgeContent={this.props.wishListCount || this.props.wishBookCount || 0} showZero color='secondary'>
+                  Wishlist
                 </Badge>
+              </Link>
+            </Typography>
+
+            <Typography className="header-nav-item" variant="body1">
+              <Link to='/Cart'>
+                <Badge badgeContent={this.props.cartCount || this.props.cartBookCount || 0} showZero color='secondary'>
+                  Cart
+                </Badge>
+              </Link>
+            </Typography>
+
+            {isAdmin && (
+              <Typography className="header-nav-item" variant="body1">
+                <Link to='/admin' style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 6, padding: '4px 12px' }}>
+                  Admin
                 </Link>
               </Typography>
-          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 60}}>
-          <Link to= '/Cart' style={{ textDecoration: 'none', color: 'white' }}>
-          {/* <Badge badgeContent={this.props.cartBookCount} showZero color="secondary"> */}
-             <Badge badgeContent={this.props.cartBookCount === this.props.cartCount ? this.props.cartBookCount : this.props.cartCount } showZero color='secondary'>
-             Cart &#xf217;
-          </Badge>
-          </Link>
-          </Typography>
-          <Typography variant="h6"  style={{fontFamily: 'fontawesome', paddingRight: 10}}>
-          <Link to= '/UserLogin' style={{ textDecoration: 'none', color: 'white' }}>
-             SignIn &#xf2be;
-          </Link>
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div >
+            )}
+
+            {isLoggedIn ? (
+              <Typography className="header-nav-item" variant="body1">
+                <span onClick={this.handleLogout} style={{ color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8 }}>
+                  Logout
+                </span>
+              </Typography>
+            ) : (
+              <Typography className="header-nav-item" variant="body1">
+                <Link to='/UserLogin'>
+                  Sign In
+                </Link>
+              </Typography>
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
     )
   }
 }
@@ -98,4 +118,4 @@ const mapStateToProps = (state) => ({
   wishListCount: state.wishListCount
 });
 
-export default connect(mapStateToProps) (Headerbar);
+export default withRouter(connect(mapStateToProps)(Headerbar));

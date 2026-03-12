@@ -57,39 +57,38 @@ export class Cart extends Component {
         })
     }
 
-    handleChangeBookDec(e) {
-        let q = e.bookQuantity - 1;
-        console.log("value of q ", q)
-        data.addToCart( e.id, q)
-        window.location.reload(true)
-        data.fetchAllCartBook(response => {
-            console.log(response)
-            this.setState({
-                booklist: response
+    handleChangeBookDec = (book) => {
+        let q = book.bookQuantity - 1;
+        if (q <= 0) {
+            data.removeBookFromCart(book.id, 1).then(() => {
+                data.fetchAllCartBook(response => {
+                    this.setState({ booklist: response })
+                })
             })
-        })
-        window.location.reload(true)
+        } else {
+            data.addToCart(book.id, q).then(() => {
+                data.fetchAllCartBook(response => {
+                    this.setState({ booklist: response })
+                })
+            })
+        }
     }
 
-    handleChangeBookInc(e) {
-        let q = e.bookQuantity + 1;
-        console.log("value of q ", q)
-        data.addToCart( e.id, q)
-        window.location.reload(true)
-        data.fetchAllCartBook(response => {
-            console.log(response)
-            this.setState({
-                booklist: response
+    handleChangeBookInc = (book) => {
+        let q = book.bookQuantity + 1;
+        data.addToCart(book.id, q).then(() => {
+            data.fetchAllCartBook(response => {
+                this.setState({ booklist: response })
             })
         })
-        window.location.reload(true)
     }
 
-
-    handleRemoveBookFromOrder = (e) =>{
-        data.removeBookFromCart(e,1)
-        console.log(e);
-        window.location.reload(false);
+    handleRemoveBookFromOrder = (e) => {
+        data.removeBookFromCart(e, 1).then(() => {
+            data.fetchAllCartBook(response => {
+                this.setState({ booklist: response })
+            })
+        })
     }
     
     setEditable() {
@@ -113,7 +112,7 @@ export class Cart extends Component {
     handleChangeEnableCustomerDetails = async() => {
         await data.isCustomerDetailsExisted(response => {
             console.log("result : ", response)
-            if (response == 'true') {
+            if (response === 'true') {
              this.setState({
                 placeOrder:true,
                 customerDetails:false,
@@ -147,17 +146,15 @@ export class Cart extends Component {
     }
 
     checkout() {
-        if (this.validateForm()) 
-            {
-                console.log("form submitted");
-                this.setState({
-                    orderSummery: !this.state.orderSummery,
-                    continue: !this.state.continue,
-                    editbutton: !this.state.editbutton
-                })
-            }
-         this.handleChangeEnableOrderSummary();
+        if (this.validateForm()) {
+            this.setState({
+                orderSummery: true,
+                continue: false,
+                editbutton: true
+            })
+            this.handleChangeEnableOrderSummary();
         }
+    }
 
         validateForm() {
             let fields = this.state.fields;
@@ -356,129 +353,115 @@ export class Cart extends Component {
 
     render() {
         return (
-            <div>
+            <div className="cart-page">
             <Headerbar />
-                <div>
-                <div className="mainCart">
-                <Card className="userCard">
-                    <div className="myCart">My Cart ({this.state.booklist.length}) </div>
-                        <div className="box">
-                            {this.state.booklist.map(book => (
-                            <div className="cart">
-                                <div>
-                                    <img className="bookImages" src={book.picPath}/>
-                                </div>
-                                    <div style={{ marginLeft: '5%' }}>
-                                            <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
-                                        <div>
-                                            <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
-                                            <input style={{ width: '20px', textAlign: 'center', fontWeight: 'bold', marginLeft: '2px', height: '20px', marginRight: '2px'}} readOnly value={book.bookQuantity}/>
-                                            <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
-                                            <Button style={{ marginLeft: '80px' }} onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
-                                        </div>
+            <div className="cart-content">
+                {/* Cart Items */}
+                <div className="cart-section">
+                    <div className="cart-section-header">My Cart ({this.state.booklist.length})</div>
+                    <div className="cart-items">
+                        {this.state.booklist.map(book => (
+                            <div className="cart-item" key={book.id}>
+                                <img className="cart-item-image" src={book.picPath} alt={book.nameOfBook}/>
+                                <div className="cart-item-details">
+                                    <div className="cart-item-title">{book.nameOfBook}</div>
+                                    <div className="cart-item-author">by {book.author}</div>
+                                    <div className="cart-item-price">Rs. {book.price}</div>
+                                    <div className="cart-qty-controls">
+                                        <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
+                                        <input className="cart-qty-input" readOnly value={book.bookQuantity}/>
+                                        <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
+                                        <Button className="cart-item-remove" onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
                                     </div>
                                 </div>
-                            ))}
-                            <div className="chekoutButton">
-                                <Button variant="contained" color="primary" onClick={this.handleChangeEnableCustomerDetails} style={this.state.placeOrder ? { display: 'block' } : { display: 'none' }}>
-                                            Place order
-                                </Button>
                             </div>
-                        </div>
-                    </Card>
-                </div>
-                </div>
-                <div>
-                <Card className="customerCard" style={this.state.customerDetails ? { minHeight: '630px' } : { height: '60px' }}>
-                    <div className="CustomerPage">
-                        <Typography className="customerDetails">Customer Details</Typography>
-                        <Button onClick={() => this.setEditable()} style={{ fontSize: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }} style={this.state.editbutton ? { display: 'block' } : { display: 'none' }}>Edit</Button>
+                        ))}
                     </div>
-
-                    <div style={{marginLeft:'30px'}}>
-                        <div>
-                            <TextField name="name" label="Name" variant="outlined" value={this.state.fields.name}  style={{ outlineColor: 'coral' }} onChange={(e) => this.handleSetName(e)}/>
-                            <div className="errorMsg">{this.state.errors.name}</div>
-                        </div>
-                    </div><br></br>
-
-                    <div className="textFieldRow">
-                        <div>
-                            <TextField label="Pincode" variant="outlined" name="pincode" value={this.state.fields.pincode}  onChange={(e) => this.handleSetPincode(e)} />
-                            <div className="errorMsg">{this.state.errors.pincode}</div>
-                        </div>
-                        <div>
-                            <TextField label="Locality" variant="outlined" name="locality" value={this.state.fields.locality} onChange={(e) => this.handleSetLocality(e)}/>
-                            <div className="errorMsg">{this.state.errors.locality}</div>
-                        </div>
-                    </div><br></br>
-
-                    <div className="textFieldAddress">
-                        <div>
-                        <TextField  label="Address" multiline rows="4" name="address" value={this.state.fields.address} 
-                        variant="outlined" style={{ width: '472px' }} InputProps={{ disableUnderline: true }} onChange={(e) => this.handleSetAddress(e)}/>
-                        <div className="errorMsg">{this.state.errors.address}</div>
-                    </div>
-                    </div><br></br>
-
-                    <div className="textFieldRow">
-                        <div>
-                            <TextField label="City" name="city" variant="outlined" value={this.state.fields.city}  onChange={(e) => this.handleSetCity(e)}/>
-                            <div className="errorMsg">{this.state.errors.city}</div>
-                        </div>
-                        <div>
-                            <TextField label="Landmark" variant="outlined" name="landmark" value={this.state.fields.landmark}  onChange={(e) => this.handleSetLandmark(e)} />
-                            <div className="errorMsg">{this.state.errors.landmark}</div>
-                        </div>
-                    </div><br></br>
-
-                    <div style={{ width: '92%', margin: 'auto', paddingBottom: '20px' }}>
-                        <div >
-                            <div className="typeRadio">Type</div>
-                            <RadioGroup aria-label="Type" name="type" row>
-                                <FormControlLabel value="home" control={<Radio />} label="home"  onChange={this.handleSelectHome}/>
-                                <FormControlLabel value="work" control={<Radio />} label="work" onChange={this.handleSelectWork}/>
-                                <FormControlLabel value="other" control={<Radio />} label="Other" onChange={this.handleSelectOther}/>
-                            </RadioGroup>
-                        </div>
-                        <div className="placeHolder">
-                            <Button variant="contained" color="primary" style={this.state.continue ? { display: 'block' } : { display: 'none' }} onClick={this.checkout}>
-                                CONTINUE
+                    {this.state.placeOrder && (
+                        <div className="cart-actions">
+                            <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.handleChangeEnableCustomerDetails}>
+                                Place Order
                             </Button>
                         </div>
+                    )}
+                </div>
+
+                {/* Customer Details */}
+                <div className="cart-section" style={this.state.customerDetails ? {} : { maxHeight: 56, overflow: 'hidden' }}>
+                    <div className="cart-section-header">
+                        Customer Details
+                        {this.state.editbutton && <Button onClick={() => this.setEditable()}>Edit</Button>}
                     </div>
-                </Card>
-            </div>
-            <div className="OrderCart">
-                <Card className="lastCard" style={this.state.orderSummery ? { height: '300px' } : { height: '60px' }}>
-                    <div className="myCart">Order summery</div>
-                        <div className="box">
-                            {this.state.booklist.map(book => (
-                            <div className="cart">
-                                <div key={book.id}>
-                                    <img className="bookImages" src={book.picPath}/>
-                                </div>
-                                    <div style={{ marginLeft: '5%' }}>
-                                            <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                            <Typography className="cartAuthor" style={{ fontSize: '10px' }}>by {book.author}</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price * book.bookQuantity}</Typography>
-                                            <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Qty. {book.bookQuantity}</Typography>
-                                        <div>
-                                    </div>
+                    <div className="customer-form">
+                        <TextField name="name" label="Full Name" variant="outlined" fullWidth value={this.state.fields.name || ''} onChange={(e) => this.handleSetName(e)} size="small"/>
+                        <div className="errorMsg">{this.state.errors.name}</div>
+
+                        <div className="form-row">
+                            <div>
+                                <TextField label="Pincode" variant="outlined" name="pincode" fullWidth value={this.state.fields.pincode || ''} onChange={(e) => this.handleSetPincode(e)} size="small"/>
+                                <div className="errorMsg">{this.state.errors.pincode}</div>
+                            </div>
+                            <div>
+                                <TextField label="Locality" variant="outlined" name="locality" fullWidth value={this.state.fields.locality || ''} onChange={(e) => this.handleSetLocality(e)} size="small"/>
+                                <div className="errorMsg">{this.state.errors.locality}</div>
+                            </div>
+                        </div>
+
+                        <TextField label="Address" multiline rows={3} name="address" fullWidth value={this.state.fields.address || ''} variant="outlined" onChange={(e) => this.handleSetAddress(e)} size="small"/>
+                        <div className="errorMsg">{this.state.errors.address}</div>
+
+                        <div className="form-row">
+                            <div>
+                                <TextField label="City" name="city" variant="outlined" fullWidth value={this.state.fields.city || ''} onChange={(e) => this.handleSetCity(e)} size="small"/>
+                                <div className="errorMsg">{this.state.errors.city}</div>
+                            </div>
+                            <div>
+                                <TextField label="Landmark" variant="outlined" name="landmark" fullWidth value={this.state.fields.landmark || ''} onChange={(e) => this.handleSetLandmark(e)} size="small"/>
+                                <div className="errorMsg">{this.state.errors.landmark}</div>
+                            </div>
+                        </div>
+
+                        <div className="type-label">Address Type</div>
+                        <RadioGroup aria-label="Type" name="type" row>
+                            <FormControlLabel value="home" control={<Radio color="primary"/>} label="Home" onChange={this.handleSelectHome}/>
+                            <FormControlLabel value="work" control={<Radio color="primary"/>} label="Work" onChange={this.handleSelectWork}/>
+                            <FormControlLabel value="other" control={<Radio color="primary"/>} label="Other" onChange={this.handleSelectOther}/>
+                        </RadioGroup>
+
+                        {this.state.continue && (
+                            <div className="cart-actions" style={{ padding: '12px 0 0' }}>
+                                <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.checkout}>
+                                    Continue
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Order Summary */}
+                <div className="cart-section" style={this.state.orderSummery ? {} : { maxHeight: 56, overflow: 'hidden' }}>
+                    <div className="cart-section-header">Order Summary</div>
+                    <div className="cart-items">
+                        {this.state.booklist.map(book => (
+                            <div className="cart-item" key={book.id}>
+                                <img className="cart-item-image" src={book.picPath} alt={book.nameOfBook}/>
+                                <div className="cart-item-details">
+                                    <div className="cart-item-title">{book.nameOfBook}</div>
+                                    <div className="cart-item-author">by {book.author}</div>
+                                    <div className="cart-item-price">Rs. {book.price * book.bookQuantity}</div>
+                                    <div className="cart-item-author">Qty: {book.bookQuantity}</div>
                                 </div>
                             </div>
-                            ))}
-                            <div className="chekoutButton">
-                            <Link to="/ConfirmOrder" style={{ textDecoration: 'none', color: 'white' }} >
-                                <Button variant="contained" color="primary" onClick={this.handleChangePlaceOrder}>
-                                    CHECKOUT
-                                </Button>
-                            </Link>
-                        </div>
-                        </div>
-                </Card>
+                        ))}
+                    </div>
+                    <div className="cart-actions">
+                        <Link to="/ConfirmOrder" style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.handleChangePlaceOrder}>
+                                Checkout
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>

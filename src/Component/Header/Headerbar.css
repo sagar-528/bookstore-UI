@@ -1,8 +1,98 @@
-.searchBar {
-    display: flex;
-    justify-content: start;
-    margin-left: 20px;
-    border-radius: 4px;
-    background-color: aliceblue;
-    width: 40%;
+.header-root {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-bar {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+  box-shadow: 0 2px 20px rgba(139, 33, 49, 0.3) !important;
+}
+
+.header-toolbar {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 8px 24px !important;
+}
+
+.header-logo {
+  font-weight: 700 !important;
+  font-size: 1.4rem !important;
+  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.header-logo a {
+  color: white !important;
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-logo a:hover {
+  opacity: 0.9;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 4px 12px;
+  margin-left: 32px;
+  width: 40%;
+  transition: var(--transition);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-search:focus-within {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+}
+
+.header-search .MuiSvgIcon-root {
+  color: rgba(255,255,255,0.7);
+  font-size: 20px;
+}
+
+.header-search .MuiInputBase-root {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.header-search .MuiInputBase-root::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.header-nav-item {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px;
+}
+
+.header-nav-item a {
+  color: white !important;
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.header-nav-item a:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.header-nav-item .MuiBadge-badge {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
 }

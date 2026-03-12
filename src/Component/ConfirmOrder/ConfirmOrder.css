@@ -1,48 +1,95 @@
-.orderImage{
-    margin-top: 20px;
+.confirm-page {
+    min-height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.confirm-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-}
-
-.messageParagraph{
-    padding: 1px;
-    margin: 0px;
-    flex-direction: column;
-    text-align: center;
-    font-size: 10;
-    font-weight: 100;
-}
-
-.orderMessage{
-    flex-direction: column;
+    padding: 60px 24px;
     text-align: center;
 }
 
-.userDataTable{
-    padding: 10px;
-    font-size: 0.875rem;
-    text-align: right;
-    font-weight: 400;
-    line-height: 1.43;
-    width: 50%;
+.confirm-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #27AE60 0%, #2ECC71 100%);
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin: auto;
-    margin-top: 30px;
+    margin: 0 auto 28px;
+    box-shadow: 0 12px 32px rgba(39, 174, 96, 0.3);
 }
 
-.continueShoopingButton{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.confirm-icon span {
+    font-size: 56px;
+    filter: brightness(0) invert(1);
 }
 
-.mainDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.confirm-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.confirm-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.confirm-order-id {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(139, 33, 49, 0.08);
+    padding: 8px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 12px 0 36px;
+}
+
+.confirm-info-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    max-width: 560px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.confirm-info-card .MuiTableCell-root {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px;
+    border-color: #F0EDE8;
+}
+
+.confirm-info-card .MuiTableCell-head {
+    font-weight: 700 !important;
+    color: var(--text-primary);
+    background: #FAFAF8;
+}
+
+.confirm-continue {
+    font-family: 'Inter', sans-serif !important;
+    text-transform: none !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    border-radius: 10px !important;
+    padding: 12px 32px !important;
+    background: linear-gradient(135deg, #8B2131 0%, #6B1525 100%) !important;
+    color: white !important;
 }

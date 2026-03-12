@@ -1,80 +1,83 @@
 import React, { Component } from 'react'
-import { Typography } from '@material-ui/core'
 import Headerbar from '../Header/Headerbar'
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import HTTTPServices from '../../HTTPServices'
 import Footer from '../Footer/Footer';
+import { connect } from 'react-redux';
 import './WishList.css'
-
 
 var data = new HTTTPServices();
 export class WishList extends Component {
 
     constructor(props) {
         super(props)
-    
         this.state = {
-             wishlistBooks: []
+            wishlistBooks: []
         }
     }
-    
-        async componentDidMount() {
+
+    componentDidMount() {
+        data.fetchAllWishlistBooks(response => {
+            this.setState({ wishlistBooks: response })
+            this.props.dispatch({ type: "wishListUpdate", payload: response.length })
+        })
+    }
+
+    handleRemovebooks = (e) => {
+        data.removeBookFromWishList(0, e).then(() => {
             data.fetchAllWishlistBooks(response => {
-                console.log(response)
-                this.setState({
-                    wishlistBooks: response
-                })
-            })
-            await data.getAllWishlistBook(response => {
+                this.setState({ wishlistBooks: response })
                 this.props.dispatch({ type: "wishListUpdate", payload: response.length })
             })
-        }
-    
-        handleRemovebooks = (e) =>{
-            data.removeBookFromWishList(101, e)
-            console.log("sagar", e);
-            window.location.reload(false);
-        }
-    
-        handleBookToCart = (e) =>{
-            data.addToCart( e, 1)
-            console.log("sagar", e);
-            data.removeBookFromWishList(101, e)
-            window.location.reload(false);
-        }
-    
+        })
+    }
+
+    handleBookToCart = (e) => {
+        data.addToCart(e, 1).then(() => {
+            return data.removeBookFromWishList(0, e)
+        }).then(() => {
+            data.fetchAllWishlistBooks(response => {
+                this.setState({ wishlistBooks: response })
+                this.props.dispatch({ type: "wishListUpdate", payload: response.length })
+            })
+            data.fetchAllCartBook(response => {
+                this.props.dispatch({ type: "methodCalled", payload: response.length })
+            })
+        })
+    }
+
     render() {
         return (
-            <div>
+            <div className="wishlist-page">
                 <Headerbar />
-                <div className="wishCart">
-                <Card className="Card">
-                    <div className="myCart">My WishList ({this.state.wishlistBooks.length}) </div>
-                        <div className="box">
+                <div className="wishlist-content">
+                    <div className="wishlist-section">
+                        <div className="wishlist-header">My Wishlist ({this.state.wishlistBooks.length})</div>
+                        <div className="wishlist-items">
+                            {this.state.wishlistBooks.length === 0 && (
+                                <div className="wishlist-empty">Your wishlist is empty.</div>
+                            )}
                             {this.state.wishlistBooks.map(book => (
-                                <div className="cart">
-                                    <div key={book.id}>
-                                        <img className="bookImages" src={book.picPath}/>
+                                <div className="wishlist-item" key={book.id}>
+                                    <img className="wishlist-item-image" src={book.picPath} alt={book.nameOfBook}/>
+                                    <div className="wishlist-item-details">
+                                        <div className="wishlist-item-title">{book.nameOfBook}</div>
+                                        <div className="wishlist-item-author">by {book.author}</div>
+                                        <div className="wishlist-item-price">Rs. {book.price}</div>
                                     </div>
-                                    <div style={{ marginLeft: '5%' }}>
-                                        <Typography className="cartTitle" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '450' }}>{book.nameOfBook}</Typography>
-                                        <Typography className="cartAuthor" style={{ fontSize: '10px' }}>{book.author}</Typography>
-                                        <Typography className="cartPrice" style={{ fontSize: '14px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600' }}>Rs. {book.price}</Typography>
-                                        <div>
-                                            <Button color="primary" style={{ marginLeft: '350px'}} onClick={() => this.handleRemovebooks(book.id)}>Remove</Button>
-                                            <Button color="primary" onClick={() => this.handleBookToCart(book.id)}>Add to Cart</Button>
-                                        </div>
+                                    <div className="wishlist-item-actions">
+                                        <Button variant="outlined" style={{ borderColor: '#C0392B', color: '#C0392B' }} onClick={() => this.handleRemovebooks(book.id)}>Remove</Button>
+                                        <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={() => this.handleBookToCart(book.id)}>Add to Cart</Button>
                                     </div>
-                               </div>
+                                </div>
                             ))}
                         </div>
-                </Card>
+                    </div>
+                </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
         )
     }
 }
 
-export default WishList
+export default connect()(WishList)

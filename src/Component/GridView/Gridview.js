@@ -1,35 +1,21 @@
 import React, { Component } from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Bookview from '../BookView/Bookview'
 
-const useStyles = createMuiTheme({
-    root: {
-        flexGrow: 1
-    }
-});
-
 class Gridview extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state ={
-            books: []
-        }
-    }
-
-        
-render() {
-    return (
-        <MuiThemeProvider theme={useStyles}>
-        <div className={useStyles.root} style={{display:'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}} >
-        {this.props.data.map(o => (
-                        <Bookview data={o}/>
-                    ))}
-        </div>
-        </MuiThemeProvider>
+    render() {
+        return (
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: '24px',
+                padding: '24px 0',
+            }}>
+                {this.props.data && this.props.data.map(o => (
+                    <Bookview key={o.id} data={o} />
+                ))}
+            </div>
         );
     }
 }
-
 
 export default Gridview;

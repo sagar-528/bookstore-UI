@@ -1,37 +1,21 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-
-    title: {
-        flexGrow: 1,
-        fontFamily: 'Arial, Helvetica, sans- serif',
-        fontSize: '12px',
-        marginLeft: '80px'
-    },
-    
-    footer: {
-        backgroundColor: "#4e342e"
-    },
-}));
 function Footer() {
-    const classes = useStyles();
     return (
-       <div className={classes.root}>
-            <AppBar position="static" className={classes.footer}>
-                <Toolbar>
-                    <Typography variant="h8" className={classes.title}>
-                        Copyright © 2020, Bookstore Private Limited. All Rights Reserved.
-          </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <footer style={{
+            background: 'linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)',
+            color: 'rgba(255,255,255,0.6)',
+            padding: '24px 0',
+            textAlign: 'center',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '13px',
+            letterSpacing: '0.3px',
+            marginTop: 'auto',
+        }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+                Copyright © {new Date().getFullYear()}, Bookstore Private Limited. All Rights Reserved.
+            </div>
+        </footer>
     )
 }
 
