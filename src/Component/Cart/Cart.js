@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import './Cart.css'
 import Headerbar from '../Header/Headerbar';
 import Footer from '../Footer/Footer';
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import TextField from '@material-ui/core/TextField';
@@ -360,24 +358,32 @@ export class Cart extends Component {
                 <div className="cart-section">
                     <div className="cart-section-header">My Cart ({this.state.booklist.length})</div>
                     <div className="cart-items">
-                        {this.state.booklist.map(book => (
-                            <div className="cart-item" key={book.id}>
-                                <img className="cart-item-image" src={book.picPath} alt={book.nameOfBook}/>
-                                <div className="cart-item-details">
-                                    <div className="cart-item-title">{book.nameOfBook}</div>
-                                    <div className="cart-item-author">by {book.author}</div>
-                                    <div className="cart-item-price">Rs. {book.price}</div>
-                                    <div className="cart-qty-controls">
-                                        <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
-                                        <input className="cart-qty-input" readOnly value={book.bookQuantity}/>
-                                        <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
-                                        <Button className="cart-item-remove" onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
+                        {this.state.booklist.length === 0 ? (
+                            <div style={{ padding: '40px 24px', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'Inter, sans-serif' }}>
+                                <div style={{ fontSize: 48, marginBottom: 12 }}>&#128722;</div>
+                                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4 }}>Your cart is empty</div>
+                                <div style={{ fontSize: 13 }}>Add some books to get started!</div>
+                            </div>
+                        ) : (
+                            this.state.booklist.map(book => (
+                                <div className="cart-item" key={book.id}>
+                                    <img className="cart-item-image" src={book.picPath} alt={book.nameOfBook}/>
+                                    <div className="cart-item-details">
+                                        <div className="cart-item-title">{book.nameOfBook}</div>
+                                        <div className="cart-item-author">by {book.author}</div>
+                                        <div className="cart-item-price">Rs. {book.price}</div>
+                                        <div className="cart-qty-controls">
+                                            <RemoveCircleOutlineIcon onClick={() => this.handleChangeBookDec(book)}/>
+                                            <input className="cart-qty-input" readOnly value={book.bookQuantity}/>
+                                            <AddCircleOutlineIcon onClick={() => this.handleChangeBookInc(book)}/>
+                                            <Button className="cart-item-remove" onClick={() => this.handleRemoveBookFromOrder(book.id)}>Remove</Button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
-                    {this.state.placeOrder && (
+                    {this.state.placeOrder && this.state.booklist.length > 0 && (
                         <div className="cart-actions">
                             <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.handleChangeEnableCustomerDetails}>
                                 Place Order
@@ -454,13 +460,15 @@ export class Cart extends Component {
                             </div>
                         ))}
                     </div>
-                    <div className="cart-actions">
-                        <Link to="/ConfirmOrder" style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.handleChangePlaceOrder}>
-                                Checkout
-                            </Button>
-                        </Link>
-                    </div>
+                    {this.state.booklist.length > 0 && (
+                        <div className="cart-actions">
+                            <Link to="/ConfirmOrder" style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" style={{ background: 'var(--primary)', color: 'white' }} onClick={this.handleChangePlaceOrder}>
+                                    Checkout
+                                </Button>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer />

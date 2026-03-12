@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
 
@@ -66,7 +70,7 @@ export class SignUp extends Component {
             fields: {}, errors: {},
             userName: '', password: '', emailId: '', phoneNumber: '',
             admin: false, user: false,
-            serverError: '', loading: false,
+            serverError: '', loading: false, showPassword: false,
         }
     }
 
@@ -89,20 +93,39 @@ export class SignUp extends Component {
     handleSelectRoleAdmin = () => { this.setState({ admin: !this.state.admin }) }
     handleSelectRoleUser = () => { this.setState({ user: !this.state.user }) }
 
+    syncAutofillValues = (form) => {
+        const get = (name) => form.querySelector(`input[name="${name}"]`)?.value || '';
+        const userName = this.state.userName || get('username');
+        const phoneNumber = this.state.phoneNumber || get('phone');
+        const emailId = this.state.emailId || get('email');
+        const password = this.state.password || get('password');
+        const fields = {
+            Name: userName || this.state.fields.Name,
+            PhoneNumber: phoneNumber || this.state.fields.PhoneNumber,
+            emailId: emailId || this.state.fields.emailId,
+            password: password || this.state.fields.password,
+        };
+        this.setState({ userName, phoneNumber, emailId, password, fields });
+        return fields;
+    }
+
     handleSubmitSignUpForm = async (e) => {
         e.preventDefault();
-        if (!this.validateForm()) return;
-        const role = [];
-        if (this.state.admin) role.push("admin");
-        if (this.state.user) role.push("user");
-        if (role.length === 0) role.push("user");
-        this.setState({ loading: true, serverError: '' });
-        try {
-            await data.signUpData(this.state.userName, this.state.password, this.state.emailId, this.state.phoneNumber, role);
-            this.props.history.push('/UserLogin');
-        } catch (err) {
-            this.setState({ serverError: 'Registration failed. Username may already exist.', loading: false });
-        }
+        const fields = this.syncAutofillValues(e.target);
+        this.setState({ fields }, async () => {
+            if (!this.validateForm()) return;
+            const role = [];
+            if (this.state.admin) role.push("admin");
+            if (this.state.user) role.push("user");
+            if (role.length === 0) role.push("user");
+            this.setState({ loading: true, serverError: '' });
+            try {
+                await data.signUpData(this.state.userName, this.state.password, this.state.emailId, this.state.phoneNumber, role);
+                this.props.history.push('/UserLogin');
+            } catch (err) {
+                this.setState({ serverError: 'Registration failed. Username may already exist.', loading: false });
+            }
+        });
     }
 
     validateForm() {
@@ -143,25 +166,43 @@ export class SignUp extends Component {
                         <div style={row}>
                             <div style={{ flex: 1 }}>
                                 <TextField variant="outlined" required fullWidth label="Name" size="small"
+                                    name="username" autoComplete="name"
                                     value={this.state.userName} InputProps={inputProps}
                                     onChange={this.handleSetName} />
                                 <div style={errStyle}>{this.state.errors.Name}</div>
                             </div>
                             <div style={{ flex: 1 }}>
                                 <TextField variant="outlined" required fullWidth label="Phone Number" size="small"
+                                    name="phone" autoComplete="tel"
                                     value={this.state.phoneNumber} InputProps={inputProps}
                                     onChange={this.handleSetPhoneNumber} />
                                 <div style={errStyle}>{this.state.errors.PhoneNumber}</div>
                             </div>
                         </div>
                         <TextField variant="outlined" required fullWidth label="Email Address" size="small"
+                            name="email" autoComplete="email"
                             value={this.state.emailId} InputProps={inputProps}
                             onChange={this.handleSetEmailAddress} style={{ marginBottom: 4 }}/>
                         <div style={errStyle}>{this.state.errors.emailId}</div>
 
-                        <TextField variant="outlined" required fullWidth label="Password" type="password" size="small"
-                            value={this.state.password} InputProps={inputProps}
-                            onChange={this.handleSetPassword} style={{ marginBottom: 4 }}/>
+                        <TextField variant="outlined" required fullWidth label="Password"
+                            name="password" autoComplete="new-password"
+                            type={this.state.showPassword ? 'text' : 'password'} size="small"
+                            placeholder="e.g. Book123, myPass99"
+                            value={this.state.password}
+                            InputProps={{
+                                ...inputProps,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton size="small" onClick={() => this.setState(prev => ({ showPassword: !prev.showPassword }))}>
+                                            {this.state.showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            helperText="Min 3 characters, letters and numbers only (e.g. hello1, Admin99, pass123)"
+                            FormHelperTextProps={{ style: { fontFamily: "'Inter', sans-serif", fontSize: 11, color: '#8E8EA0' } }}
+                            onChange={this.handleSetPassword} style={{ marginBottom: 0 }}/>
                         <div style={errStyle}>{this.state.errors.password}</div>
 
                         <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#555770', marginBottom: 12 }}>

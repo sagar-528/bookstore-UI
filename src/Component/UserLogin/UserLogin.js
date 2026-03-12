@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
 import HTTPServices from '../../HTTPServices';
 
@@ -98,6 +102,7 @@ class UserLogin extends Component {
             error: '',
             success: '',
             loading: false,
+            showPassword: false,
         }
     }
 
@@ -106,13 +111,16 @@ class UserLogin extends Component {
 
     handleChangeLogin = async (e) => {
         e.preventDefault();
-        if (!this.state.username || !this.state.password) {
+        const form = e.target;
+        const username = this.state.username || form.querySelector('input[autocomplete="username"]')?.value || '';
+        const password = this.state.password || form.querySelector('input[type="password"]')?.value || form.querySelector('input[autocomplete="current-password"]')?.value || '';
+        if (!username || !password) {
             this.setState({ error: 'Please enter both username and password.' });
             return;
         }
-        this.setState({ loading: true, error: '' });
+        this.setState({ username, password, loading: true, error: '' });
         try {
-            const res = await data.signInData(this.state.username, this.state.password);
+            const res = await data.signInData(username, password);
             if (res && res.accessToken) {
                 this.setState({ success: 'Login successful! Redirecting...', loading: false });
                 setTimeout(() => {
@@ -144,16 +152,25 @@ class UserLogin extends Component {
 
                     <form noValidate onSubmit={this.handleChangeLogin}>
                         <TextField variant="outlined" margin="dense" required fullWidth
-                            label="Username" autoComplete="username" autoFocus
+                            label="Username" name="username" autoComplete="username" autoFocus
                             value={this.state.username}
                             style={inputStyle}
                             InputProps={{ style: { borderRadius: 10, fontFamily: "'Inter', sans-serif" } }}
                             onChange={this.handleChangeUsername} />
                         <TextField variant="outlined" margin="dense" required fullWidth
-                            label="Password" type="password" autoComplete="current-password"
+                            label="Password" name="password" type={this.state.showPassword ? 'text' : 'password'} autoComplete="current-password"
                             value={this.state.password}
                             style={inputStyle}
-                            InputProps={{ style: { borderRadius: 10, fontFamily: "'Inter', sans-serif" } }}
+                            InputProps={{
+                                style: { borderRadius: 10, fontFamily: "'Inter', sans-serif" },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton size="small" onClick={() => this.setState(prev => ({ showPassword: !prev.showPassword }))}>
+                                            {this.state.showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                             onChange={this.handleChangePassword} />
                         <Button fullWidth variant="contained" style={btnPrimary}
                             type="submit" disabled={this.state.loading}>
